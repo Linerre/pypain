@@ -1,2 +1,2 @@
-# ignore all .txt files
-*.txt
+# ignore the test directory
+test/.*
