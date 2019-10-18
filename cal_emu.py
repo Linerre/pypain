@@ -2,27 +2,34 @@
 # -*- coding: utf-8 -*-
 
 # let's say user does enter a number
-num_one = float(input('Please enter a number: ')) # num_1
+num_one = input('Please enter a number: ') # num_1 
 
  # let's say we only support + - x /
 op = input('Please enter the operator: ') # op_1
 
-while op == '+' or op == '-' or op == '*' or op == '/':
+while op != '+' and op != '-' and op != '*' and op != '/': # infinite loop fixed
     print('Operators only support +, -, *, /')
     op = input('Please enter the operator: ')
 
-num_two = float(input('Please enter another number: ')) # num_2
-result = eval(num_one + op + num_two)
+num_two = input('Please enter another number: ') # num_2
+result = eval(num_one + op + num_two) # no float ever needed because of the introduction of eval
+# but the eval statement will return a int/float value!
+# not a string! Pay detailed attention to this!
 
 while True:
-    op = input('Please enter the operator or hit = to get the result')
+    op = input('Please enter the operator or hit = to get the result: ')
     if op == '=':
         print(result)
         break
     else:
         num_one = result
-        num_two = float(input('Please enter still another number: '))
-        op = input('Please enter the operator')
+        num_two = input('Please enter still another number: ')
+
+        op = input('Please enter the operator: ')
+        while op != '+' and op != '-' and op != '*' and op != '/': # infinite loop fixed
+            print('Operators only support +, -, *, /')
+            op = input('Please enter the operator: ')
+
         result = eval(num_one + op + num_two)
         continue
 
