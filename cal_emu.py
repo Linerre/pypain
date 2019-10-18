@@ -7,12 +7,12 @@ num_one = input('Please enter a number: ') # num_1
  # let's say we only support + - x /
 op = input('Please enter the operator: ') # op_1
 
-while op != '+' and op != '-' and op != '*' and op != '/': # infinite loop fixed
+while op != '+' and op != '-' and op != '*' and op != '/': # decide operation
     print('Operators only support +, -, *, /')
     op = input('Please enter the operator: ')
 
 num_two = input('Please enter another number: ') # num_2
-result = str(eval(num_one + op + num_two)) # no float ever needed because of the introduction of eval
+result = str(eval(num_one + op + num_two)) # keep result a str for next eval if needed
 # but the eval statement will return a int/float value!
 # not a string! Pay detailed attention to this!
 
@@ -22,16 +22,14 @@ while True:
         print(result)
         break
     else:
-        num_one = result
-        num_two = input('Please enter still another number: ')
-
-        op = input('Please enter the operator: ')
-        while op != '+' and op != '-' and op != '*' and op != '/': # infinite loop fixed
+        num_one = result # integrate the previous result into the new counting base
+        num_two = input('Please enter still another number: ') # ask for a new number
+        op = input('Please enter the operator: ') # ask for a new op
+        while op != '+' and op != '-' and op != '*' and op != '/': # check it
             print('Operators only support +, -, *, /')
             op = input('Please enter the operator: ')
-
-        result = str(eval(num_one + op + num_two))
-        continue
+        result = str(eval(num_one + op + num_two)) # here we go
+        continue # start another round of loop
 
 
 
@@ -44,12 +42,6 @@ while True:
 # it will do the cal from right to left
 # I use round brackets here for human reading purpoeses
 
-# sth still causing bugs there:
-# Please enter a number: 3
-# Please enter the operator: +
-# Please enter another number: 4
-# Please enter the operator or hit = to get the result: /
-# Please enter still another number: 5
-# Please enter the operator: *
-# Please enter the operator or hit = to get the result: =
-# 35
+# won't work after the 3rd number
+# keep looping
+# need to find out why
