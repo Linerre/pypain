@@ -12,7 +12,7 @@ while op != '+' and op != '-' and op != '*' and op != '/': # infinite loop fixed
     op = input('Please enter the operator: ')
 
 num_two = input('Please enter another number: ') # num_2
-result = eval(num_one + op + num_two) # no float ever needed because of the introduction of eval
+result = str(eval(num_one + op + num_two)) # no float ever needed because of the introduction of eval
 # but the eval statement will return a int/float value!
 # not a string! Pay detailed attention to this!
 
@@ -30,7 +30,7 @@ while True:
             print('Operators only support +, -, *, /')
             op = input('Please enter the operator: ')
 
-        result = eval(num_one + op + num_two)
+        result = str(eval(num_one + op + num_two))
         continue
 
 
@@ -43,3 +43,13 @@ while True:
 # since this simple calculator just takes nums one by one 
 # it will do the cal from right to left
 # I use round brackets here for human reading purpoeses
+
+# sth still causing bugs there:
+# Please enter a number: 3
+# Please enter the operator: +
+# Please enter another number: 4
+# Please enter the operator or hit = to get the result: /
+# Please enter still another number: 5
+# Please enter the operator: *
+# Please enter the operator or hit = to get the result: =
+# 35
