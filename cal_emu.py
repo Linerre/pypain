@@ -4,7 +4,7 @@
 # let's say user does enter a number
 num_one = input('Please enter a number: ') # num_1 
 
- # let's say we only support + - x /
+ # let's say we only support + - 8 /
 op = input('Please enter the operator: ') # op_1
 
 while op != '+' and op != '-' and op != '*' and op != '/': # decide operation
@@ -14,7 +14,7 @@ while op != '+' and op != '-' and op != '*' and op != '/': # decide operation
 num_two = input('Please enter another number: ') # num_2
 result = str(eval(num_one + op + num_two)) # keep result a str for next eval if needed
 # but the eval statement will return a int/float value!
-# not a string! Pay detailed attention to this!
+# not a string! Pay close attention to this!
 
 while True:
     op = input('Please enter an operator or hit = to get the result: ') # continue or end?
@@ -33,15 +33,14 @@ while True:
 
 
 
-# Try to calculate each time after you get two numbers
 
-# try this
-# (3 + 4) / 5 * 6
 # since this simple calculator just takes nums one by one 
 # it will do the cal from right to left
 # I use round brackets here for human reading purpoeses
 
-
+# try this
+# (3 + 4) / 5 * 6
 # 8.399999999999999
+
 # it should be 8.4
 # Need to find out why
