@@ -24,6 +24,8 @@ while True:
         oper_two = 
         result = eval(user_raw + oper_raw + user_one + )
 
+# Try to calculate each time after you get two numbers
+
 # I tried to emulate a caculator that can at least carry out 
 # addition, deduction, multiple and division.
 # Yet this approach is severely flawed since you will need 
