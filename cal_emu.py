@@ -12,15 +12,15 @@ while op != '+' and op != '-' and op != '*' and op != '/': # decide operation
     op = input('Please enter the operator: ')
 
 num_two = input('Please enter another number: ') # num_2
-result = str(eval(num_one + op + num_two)) # keep result a str for next eval if needed
-# but the eval statement will return a int/float value!
-# not a string! Pay close attention to this!
+result = str(eval(num_one + op + num_two)) #  the eval statement will return a int/float value! Not a string!
+# so need to keep result a str for next eval if needed 
+# Pay close attention to this!
 
 while True:
     op = input('Please enter an operator or hit = to get the result: ') # continue or end?
     while op != '+' and op != '-' and op != '*' and op != '/' and op != '=': # go on and check it
             print('Operator must be one of +, -, *, /, =')
-            op = input('Please enter the operator: ') # already an op here!
+            op = input('Please enter the operator: ')
     if op == '=':
         print(result)
         break
