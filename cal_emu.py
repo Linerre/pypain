@@ -44,3 +44,10 @@ while True:
 
 # it should be 8.4
 # Need to find out why
+
+# Explanations:
+# Because the precison is different betweeen decimal fraction and base 2 bianry fraction
+# See Python's official guide: https://docs.python.org/3/tutorial/floatingpoint.html
+# or two explantions in Chinese: 
+# https://www.zhihu.com/question/25457573
+# https://justjavac.com/codepuzzle/2012/11/11/codepuzzle-float-who-stole-your-accuracy.html
