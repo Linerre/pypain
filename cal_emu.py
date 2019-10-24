@@ -12,15 +12,15 @@ while op != '+' and op != '-' and op != '*' and op != '/': # decide operation
     op = input('Please enter the operator: ')
 
 num_two = input('Please enter another number: ') # num_2
-result = str(eval(num_one + op + num_two)) # keep result a str for next eval if needed
-# but the eval statement will return a int/float value!
-# not a string! Pay close attention to this!
+result = str(eval(num_one + op + num_two)) #  the eval statement will return a int/float value! Not a string!
+# so need to keep result a str for next eval if needed 
+# Pay close attention to this!
 
 while True:
     op = input('Please enter an operator or hit = to get the result: ') # continue or end?
     while op != '+' and op != '-' and op != '*' and op != '/' and op != '=': # go on and check it
             print('Operator must be one of +, -, *, /, =')
-            op = input('Please enter the operator: ') # already an op here!
+            op = input('Please enter the operator: ')
     if op == '=':
         print(result)
         break
@@ -44,3 +44,10 @@ while True:
 
 # it should be 8.4
 # Need to find out why
+
+# Explanations:
+# Because the precison is different betweeen decimal fraction and base 2 bianry fraction
+# See Python's official guide: https://docs.python.org/3/tutorial/floatingpoint.html
+# or two explantions in Chinese: 
+# https://www.zhihu.com/question/25457573
+# https://justjavac.com/codepuzzle/2012/11/11/codepuzzle-float-who-stole-your-accuracy.html
