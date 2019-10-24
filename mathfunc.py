@@ -21,3 +21,12 @@ def factorial_two(n):
 
 factorial_two(4)
 # 24
+
+def factorial_three(n):
+    result = 1
+    for i in range(1, n+1): # for loop is much easier
+        result *= i
+    return result
+
+factorial_three(4)
+# 24
