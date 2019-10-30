@@ -28,7 +28,7 @@ while True:
         num_one = result # integrate the previous result into the new counting base
         num_two = input('Please enter still another number: ') # ask for a new number
         result = str(eval(num_one + op + num_two)) # here we go
-        continue # start another round of loop
+        # continue NOT NECESSARY (start another round of loop)
 
 
 
