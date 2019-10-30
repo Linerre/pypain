@@ -36,13 +36,22 @@ def alphabet(str):
 alphabet(lower+upper)
 
 for letter in source:
-    for card in deck:
+    for card in deck: # wrong! since each letter will get 13 card!
         cipher.append([letter, card])
 
 encrypt = dict(cipher).update(punc)
 print(encrypt)
 
 # ==================== decipher ===================
-to_encipher = '''This takes a string, finds all occurrences of a number followed
+message = '''This takes a string, finds all occurrences of a number followed
 by an alphanu-meric word, and returns a string wherein every such occurrence
 is decrementedby one.'''
+
+def enigma(str)
+    encrypted = []
+    for i in message:
+        if i in encrypt.keys():
+            encrypted.append(encrypt[i])
+    return ''.join(encrypted)
+
+print(enigam(message))
