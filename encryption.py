@@ -7,6 +7,12 @@ To test encription using python3
 # ==================== Encipher ===================
 lower = 'qwertyuiopasdfghjklzxcvbnm'
 upper = 'QWERTYUIOPASDFGHJKLZXCVBNM'
+punc  = {' ': '\U0001F0CF',
+         ',': '\U0001F313',
+         '.': '\U0001F315',
+        '\'': '\U0001F31B',
+        '"' : '\U0001F31F'
+}
 source = []
 deck   = []
 cipher = []
@@ -33,7 +39,10 @@ for letter in source:
     for card in deck:
         cipher.append([letter, card])
 
-encrypt = dict(cipher)
+encrypt = dict(cipher).update(punc)
 print(encrypt)
 
 # ==================== decipher ===================
+to_encipher = '''This takes a string, finds all occurrences of a number followed
+by an alphanu-meric word, and returns a string wherein every such occurrence
+is decrementedby one.'''
