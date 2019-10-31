@@ -19,6 +19,8 @@ To test encription using python3
 
 
 # ==================== Encryption ===================
+import pprint
+
 lower = 'qwertyuiopasdfghjklzxcvbnm'
 upper = 'QWERTYUIOPASDFGHJKLZXCVBNM'
 punc  = {' ': '🃏'  #'\U0001F0CF',
@@ -50,7 +52,6 @@ for v in symbol.values():
             deck.append(v+'Q')
         elif i == 13:
             deck.append(v+'K')
-print(deck)
 
 
 def alphabet(str):
@@ -63,8 +64,10 @@ alphabet(lower+upper)
 for letter in source:
         cipher.append([letter, deck[source.index(letter)]]) #fix the bug, awkwardly
 
-encrypt = dict(cipher).update(punc)
-print(encrypt)
+encrypt = dict(cipher)
+encrypt.update(punc)
+pp = pprint.PrettyPrinter(indent=2, width=10)
+pp.pprint(encrypt)
 
 # ==================== encipher ===================
 message = 'This takes a string, finds all occurrences of a number followed by an alphanumeric word, and returns a string wherein every such occurrence is decrementedby one.'
