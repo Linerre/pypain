@@ -42,7 +42,9 @@ symbol = {'spades'  : '♠',
 
 for v in symbol.values():
     for i in range(1,14):
-        if i < 10:
+        if i == 1:
+            deck.append(v+'A')
+        elif i > 1 and i < 10:
             deck.append(v+str(i))
         elif i == 10:
             deck.append(v+'T')
