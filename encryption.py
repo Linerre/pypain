@@ -99,3 +99,7 @@ def turing(sec):
             n += 2
 
     return letters # successfully get the letters, hooray!
+
+    # the problem with this algorith is
+    # it is hard to know the word boundries
+    # need to improve
