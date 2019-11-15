@@ -102,6 +102,6 @@ def turing(sec):
 
     return letters, wordBoundry # successfully get the letters, hooray!
 
-    # the problem with this algorith is
+    # the problem with this algorithm is
     # it is hard to know the word boundries
     # need to improve
