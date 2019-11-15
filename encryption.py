@@ -92,13 +92,15 @@ def turing(sec):
     # next, break each word and get their English letters
     # then join them with the joker cards
     letters = []
+    wordBoundry = []
     for word in words:
         n = 1
+        wordBoundry.append(len(word)) # get the separation point
         while n < len(word):
             letters.append(word[n-1: n+1])
             n += 2
 
-    return letters # successfully get the letters, hooray!
+    return letters, wordBoundry # successfully get the letters, hooray!
 
     # the problem with this algorith is
     # it is hard to know the word boundries
