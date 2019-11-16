@@ -99,7 +99,7 @@ def turing(sec):
     # next, break each word and get their English letters
     # then join them with the joker cards
     letters = []
-    wordBoundry = []
+    wordBoundry = [] # may consider using closure to get these values
     text = []
     for word in words:
         n = 1
