@@ -26,3 +26,6 @@ with open(filename, 'r+', encoding='utf-8', errors = 'ignore') as f:
 
 print('cn_sent contains: ', len(cn_sent), 'sentences.')
 print('en_sent contains: ', len(en_sent), 'sentences.')
+
+# this is the final working code
+# need to handle the 'U.S.' issue
