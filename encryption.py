@@ -64,7 +64,7 @@ def alphabet(str):
 alphabet(lower+upper)
 
 for letter in source:
-        cipher.append([letter, deck[source.index(letter)]]) #fix the bug, awkwardly
+    cipher.append([letter, deck[source.index(letter)]])#fix the bug, awkwardly
 
 encrypt = dict(cipher)
 encrypt.update(punc)
@@ -72,7 +72,9 @@ pp = pprint.PrettyPrinter(indent=2, width=10)
 pp.pprint(encrypt)
 
 # ==================== encipher ===================
-message = 'This takes a string finds all occurrences of a number followed by an alphanumeric word and returns a string wherein every such occurrence is decrementedby one'
+message = '''This takes a string finds all occurrences of a number
+followed by an alphanumeric word and returns a string wherein every
+such occurrence is decrementedby one'''
 
 def enigma(str):
     encrypted = []
@@ -84,7 +86,11 @@ print(enigma(message))
 
 
 # ==================== decipher ===================
-secret = '♣7♦8♦9♥6🃏♥7♦A♦J♦5♥6🃏♦A🃏♥6♥7♥5♦9♥A♦7🃏♦6♦9♥A♦4♥6🃏♦A♦Q♦Q🃏♥2♦3♦3♥8♥5♥5♦5♥A♦3♦5♥6🃏♥2♦6🃏♦A🃏♥A♥8♦K♦2♦5♥5🃏♦6♥2♦Q♦Q♥2♥T♦5♦4🃏♦2♥Q🃏♦A♥A🃏♦A♦Q♥3♦8♦A♥A♥8♦K♦5♥5♦9♦3🃏♥T♥2♥5♦4🃏♦A♥A♦4🃏♥5♦5♥7♥8♥5♥A♥6🃏♦A🃏♥6♥7♥5♦9♥A♦7🃏♥T♦8♦5♥5♦5♦9♥A🃏♦5♥9♦5♥5♥Q🃏♥6♥8♦3♦8🃏♥2♦3♦3♥8♥5♥5♦5♥A♦3♦5🃏♦9♥6🃏♦4♦5♦3♥5♦5♦K♦5♥A♥7♦5♦4♦2♥Q🃏♥2♥A♦5'
+secret = '''♣7♦8♦9♥6🃏♥7♦A♦J♦5♥6🃏♦A🃏♥6♥7♥5♦9♥A♦7🃏♦6♦9♥A♦4♥6🃏♦A♦Q♦Q🃏
+♥2♦3♦3♥8♥5♥5♦5♥A♦3♦5♥6🃏♥2♦6🃏♦A🃏♥A♥8♦K♦2♦5♥5🃏♦6♥2♦Q♦Q♥2♥T♦5♦4🃏♦2♥Q🃏
+♦A♥A🃏♦A♦Q♥3♦8♦A♥A♥8♦K♦5♥5♦9♦3🃏♥T♥2♥5♦4🃏♦A♥A♦4🃏♥5♦5♥7♥8♥5♥A♥6🃏♦A🃏
+♥6♥7♥5♦9♥A♦7🃏♥T♦8♦5♥5♦5♦9♥A🃏♦5♥9♦5♥5♥Q🃏♥6♥8♦3♦8🃏♥2♦3♦3♥8♥5♥5♦5♥A♦3♦5🃏
+♦9♥6🃏♦4♦5♦3♥5♦5♦K♦5♥A♥7♦5♦4♦2♥Q🃏♥2♥A♦5'''
 
 
 
@@ -106,4 +112,3 @@ def turing(sec):
         text.append(list(encrypt.keys())[list(encrypt.values()).index(letter)])
     return text
 turing(secret)
-    
