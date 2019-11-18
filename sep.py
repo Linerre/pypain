@@ -2,10 +2,19 @@
 # -*- coding: utf-8 -*-
 
 import re
+import os
 from sys import argv
 script, filename = argv
 
+cwd = os.getcwd() # getting the working dir path
+origin = 'para'   # the transcripts folder
+subt   = 'line'   # the subtitles folder
+
 cn_marks = r'，|：|“|”|·|、|——'
+
+# open the original files in para dir
+# separate lines
+# put new content in a file with the same name but into a different dir line
 
 with open(filename, 'r+', encoding='utf-8', errors = 'ignore') as f:
     content = f.read()
