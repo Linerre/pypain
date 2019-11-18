@@ -42,3 +42,5 @@ with open(filename, 'r+', encoding='utf-8') as f:
     f.write(new_content)
 
 # next, may need delete empty lines
+
+# the seemingly dumbest way might turn out to be most stable one
