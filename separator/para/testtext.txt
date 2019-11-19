@@ -1,0 +1,2 @@
+This is a test file. It contains three sentences, and will be divided into three cn-en line pairs. This is the “last” pair.
+这是一份测试文档。它包含了三句话，并且会被拆分为三组中英对照行。这是“最后”一行对照文本。

@@ -33,7 +33,7 @@ with open(os.path.join(cwd, origin, filename), 'r+', encoding='utf-8', errors = 
 
     cn_en = list(zip(cn_sent, en_sent))
 
-with open(os.path.join(cwd, origin, filename), 'w', encoding='utf-8', errors = 'ignore') as fnew:
+with open(os.path.join(cwd, subt, filename), 'w', encoding='utf-8', errors = 'ignore') as fnew:
     for cn, en in cn_en:
         fnew.write(cn+'\n'+en+'\n')
 
