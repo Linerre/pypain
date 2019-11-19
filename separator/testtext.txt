@@ -1,0 +1,7 @@
+This is a test file.
+这是一份测试文档。
+It contains three lines.
+它包含了三行文本。
+
+This is the “last” line.
+这是“最后”一行文本。
