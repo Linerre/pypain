@@ -9,7 +9,7 @@ script, filename = argv
 cwd = os.getcwd()
 origin = 'para'   # the transcripts folder
 subt   = 'line'   # the subtitles folder
-filename = 'testtext.txt'
+filename = 'testsub.txt'
 
 cn_marks = r'，|：|“|”|·|、|——'
 
