@@ -42,3 +42,4 @@ print('en_sent contains: ', len(en_sent), 'sentences.')
 
 # this is the final working code
 # need to handle the 'U.S.' issue
+# need to get rid of [Name: words.] first
