@@ -11,8 +11,8 @@ origin = 'para'   # the transcripts folder
 subt   = 'line'   # the subtitles folder
 filename = 'testsub.txt'
 
-cn_marks = r'，|：|“|”|·|、|——'
-interupt = r'\[(\u4e00-\u9fff+|\w+):(\u4e00-\u9fff+|\w+).|。\]'
+cn_marks = r'，|：|“|”|·|、|——' # which colon will be kept?
+interupt = r'\[(\u4e00-\u9fff+|\w+)(:|：)(\u4e00-\u9fff+|\w+).|。\]'
 
 # open the original files in para dir
 # separate the paras (en-cn) to lines (cn - en)
