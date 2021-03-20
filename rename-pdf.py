@@ -26,7 +26,7 @@ prefix = barcode + '_'
 try:
     # enter CDL dir
     os.chdir(parent)
-    
+
     # first change book dir name
     os.rename(title, prefix + title)
 
@@ -55,5 +55,5 @@ try:
     os.chdir('..\\')
     print('JOB DONE')
 except:
-    print('Oops, sth wrong!')
+    print("Oops, Unexpected error:", sys.exc_info()[0])
 
