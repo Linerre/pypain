@@ -5,7 +5,7 @@ This script will rename chapter PDFs in a batch
 within the same folder. It requires one command
 line argv, which is the barcode of the book.
 Input: 
-    <scriptname> <barcode> <book_title>
+    <script name> <barcode> <book_title>
 Output: 
     <barcode>_chapter_X.pdf
     <barcode>_<book_title>  # dir name also changed
@@ -38,14 +38,14 @@ try:
     os.chdir(parent + title)
     print(f'Entered {title} dir')
     print()
-    # get all the chapters in an unordred list
+    # get all the chapters in an unordered list
     chapters = os.listdir()
     print('Got all chapter names: ')
     print(chapters)
     print()
 
     # loop through them and modify their names 
-    print('Start renameing chapters ...')
+    print('Start renaming chapters ...')
     for chapter in chapters:
         os.rename(chapter, prefix + chapter)
 
