@@ -13,14 +13,10 @@ Output:
 
 import sys
 import os
-import getpass
 
 # root dir
-user = getpass.getuser()
-parent = f'C:\\Users\\{user}\\Desktop\\CDL\\'
+parent = os.path.join(os.environ['USERPROFILE'], 'Desktop')
 print(f'Changes will be made to {parent}\'s sub dir.')
-
-# parent = 'C:\\Users\\user\\Desktop\\CDL\\'
 
 # get barcode and book title from cmd line
 barcode = str(sys.argv[1])
