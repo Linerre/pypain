@@ -67,9 +67,10 @@ with open(part_scheme, 'r', encoding='utf-8') as part:
 
 # pre-process some elements in outlines:
 # e.g. : t-->toc; 1--> chapter_1; i-->index
+# also turn all page_nums into integers (they are strs from input file)
 def integer_page(sec_list):
     sec_list[1] = int(sec_list[1])
-    sec_list[1] = int(sec_list[1])
+    sec_list[2] = int(sec_list[2])
 for sec in outlines:
     # I miss the swtich/case statement in C so much:
     if sec[0] == 't':
@@ -112,7 +113,7 @@ for section in outlines:
     # chapter_0 means TOC for now
     part_name = orig_filename.replace('.pdf', '') \
             + '_chapter_' \
-            + str(outlines.index(sections)) \
+            + str(outlines.index(section)) \
             + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
