@@ -63,6 +63,8 @@ with open(part_scheme, 'r', encoding='utf-8') as part:
 reader = pdf.PdfFileReader(orig_filedir)
 
 # start splitting PDF based on the part_scheme
+# A starting page must be given otherwise writer will start at first page!
+start_page = 0
 for until_page in outlines:
     # writer has good memory and will remember previouly-added pages
     # so each time writer needs to overriding
@@ -73,8 +75,11 @@ for until_page in outlines:
     part_name = 'chapter' + '_' + str(outlines.index(until_page))
 
     # with a brand new (empty if you will) writer, start adding
-    for page in range(until_page):
+    for page in range(start_page, until_page):
         writer.addPage(reader.getPage(page))
+    
+    # update start_page to be used for the next loop
+    start_page = until_page
 
     # once got the partial PDF, save it to destination
     with open(DEST_DIR_STR + part_name + '.pdf', 'wb') as chp:
