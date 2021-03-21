@@ -47,18 +47,41 @@ DEST_DIR_STR = CDL_DIR + barcode + orig_filename.replace('.pdf', '/')
 
 # since pages begin at 0 according to 
 # https://pythonhosted.org/PyPDF2/PdfFileReader.html#PyPDF2.PdfFileReader.getPage
-# only the up-to page number is needed, e.g:
 # [
-#   10	---TOC
-#   11	---chapter1
-#   27	---chapter2
+#   [t,1,10]	---TOC(t)
+#   [1,10,20]	---chapter1(1)
+#   [2,21,27]	---chapter2(2)
 #   ...
-#   99	---chapter10
+#   [10,80,99]	---chapter10(10)
+#   [i,100,106] ---index(i)
 # ]
-# such page nums stored in a txt file
-with open(part_scheme, 'r', encoding='utf-8') as part:
-     outlines = [int(chp.replace('\n','')) for chp in part.readlines()]
 
+# using 1,2,3,4 ... to represent chapters simply because
+# it is convenient to name a chapter_X file later
+# such page ranges are stored in a txt file
+with open(part_scheme, 'r', encoding='utf-8') as part:
+     outlines = [sec.strip('\n').split(',') for sec in part.readlines()]
+
+# pre-process some elements in outlines:
+# e.g. : t-->toc; 1--> chapter_1; i-->index
+for sec in outlines:
+    # I miss the swtich/case statement in C so much:
+    if sec[0] == 't':
+        sec[0] = 'toc'
+    elif sec[0].isdigit():
+        sec[0] = '_chapter_' + sec[0]
+    elif sec[0] == 'i':
+        sec[0] = '_index'
+    elif sec[0] == 'r':
+        sec[0] = '_reference'
+    elif sec[0] == 'n':
+        sec[0] = '_notes'
+    elif sec[0] == 'b':
+        sec[0] = '_bibliography'
+    elif sec[0] == 'p':
+        sec[0] = '_preface'
+    elif sec[0] == 'o':
+        sec[0] = '_introdcution'
 
 # create PDF reader obj
 reader = pdf.PdfFileReader(orig_filedir)
@@ -68,7 +91,7 @@ reader = pdf.PdfFileReader(orig_filedir)
 start_page = 0
 for until_page in outlines:
     # writer has good memory and will remember previouly-added pages
-    # so each time writer needs to overriding
+    # so each time writer needs overriding
     writer = pdf.PdfFileWriter()
 
     # get suffix for chapter file name: XXX_chapter_1, XXX_chapter_2 ...
