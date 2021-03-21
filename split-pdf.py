@@ -18,18 +18,20 @@ os_name = sys.platform
 # PDF file location
 if os_name.startswith('win32'):
     # Windows
-    cdl_dir = os.path.join(os.environ['USERPROFILE'], 'Desktop\\CDL')
+    CDL_DIR = os.path.join(os.environ['USERPROFILE'], 'Desktop', 'CDL')
 elif os_name.startswith('darwin'):
     # macOS for testing only
-    CDL_DIR = os.path.join(os.environ['HOME'], 'Desktop')
+    CDL_DIR = os.path.join(os.environ['HOME'], 'Desktop/')
 
 # passing cmd line argvs
 orig_filename = str(sys.argv[1])
 orig_filedir = os.path.join(CDL_DIR + orig_filename)
 part_scheme = os.path.join(CDL_DIR + str(sys.argv[2]))
 barcode = str(sys.argv[3]) + '_'
+
+
 # os.mkdir returns none type but create it anyway since I need it
-DEST_DIR = os.mkdir(CDL_DIR + barcode + orig_filename.replace('.pdf', '/'))
+DEST_DIR = os.mkdir(CDL_DIR + barcode + orig_filename.replace('.pdf', ''))
 # to use DEST_DIR as a string, concate them using os.path.join
 DEST_DIR_STR = os.path.join(CDL_DIR \
         + barcode \
@@ -66,9 +68,8 @@ with open(part_scheme, 'r', encoding='utf-8') as part:
 # pre-process some elements in outlines:
 # e.g. : t-->toc; 1--> chapter_1; i-->index
 def integer_page(sec_list):
-    for _, start, until in section_with_range:
-        sec_list[sec_list.index(start)] = int(start)
-        sec_list[sec_list.index(until)] = int(until))
+    sec_list[1] = int(sec_list[1])
+    sec_list[1] = int(sec_list[1])
 for sec in outlines:
     # I miss the swtich/case statement in C so much:
     if sec[0] == 't':
@@ -111,7 +112,7 @@ for until_page in outlines:
     # chapter_0 means TOC for now
     part_name = orig_filename.replace('.pdf', '') \
             + '_chapter_' \
-            + str(outlines.index(until_page))
+            + str(outlines.index(until_page)) \
             + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
