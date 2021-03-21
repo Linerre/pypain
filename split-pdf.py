@@ -77,7 +77,7 @@ for until_page in outlines:
         writer.addPage(reader.getPage(page))
 
     # once got the partial PDF, save it to destination
-    with open(DEST_DIR_STR + part_name, 'wb') as chp:
+    with open(DEST_DIR_STR + part_name + '.pdf', 'wb') as chp:
         writer.write(chp)
 
 
