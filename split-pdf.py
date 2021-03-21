@@ -9,22 +9,19 @@ name being the same as the original PDF.
 
 import PyPDF2 as pdf
 import os
+import os.path
 import sys
-import getpass
 
 
 # os and user info for file path
 os_name = sys.platform
-user_name = getpass.getuser()
 # PDF file location
 if os_name.startswith('win32'):
     # Windows
-    CDL_DIR = f'C:\\Users\\{user_name}\\Desktop\\CDL\\' 
+    cdl_dir = os.path.join(os.environ['USERPROFILE'], 'Desktop\\CDL')
 elif os_name.startswith('darwin'):
     # macOS for testing only
-    CDL_DIR = f'/Users/{user_name}/Desktop/'
-elif os_name.startswith('linux'):
-    CDL_DIR = f'/home/{user_name}/Document/'
+    CDL_DIR = os.path.join(os.environ['HOME'], 'Desktop')
 
 # passing cmd line argvs
 orig_filename = str(sys.argv[1])
