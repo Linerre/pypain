@@ -73,7 +73,7 @@ for until_page in outlines:
     # get suffix for chapter file name: XXX_chapter_1, XXX_chapter_2 ...
     # chapter_0 means TOC for now
     part_name = orig_filename.replace('.pdf', '') \
-            + 'chapter_' \
+            + '_chapter_' \
             + str(outlines.index(until_page))
 
     # with a brand new (empty if you will) writer, start adding
