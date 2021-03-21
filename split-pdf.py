@@ -122,7 +122,7 @@ for section in outlines:
     # similary, pp.0 to x = (real) pp.1 to (x+1)
     # until_page is the first page of the next chp/sec in reality
     # A starting page must be given otherwise writer will start at first page!
-    for page in range(start_page, until_page - 1):
+    for page in range(start_page - 1, until_page - 1):
         writer.addPage(reader.getPage(page))
     
     # update start_page to be used for the next loop
