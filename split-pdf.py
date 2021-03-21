@@ -101,18 +101,18 @@ for sec in outlines:
 reader = pdf.PdfFileReader(orig_filedir)
 
 # start splitting PDF based on the part_scheme
-# A starting page must be given otherwise writer will start at first page!
-start_page = 0
-for until_page in outlines:
+for section in outlines:
     # writer has good memory and will remember previouly-added pages
     # so each time writer needs overriding
     writer = pdf.PdfFileWriter()
+    start_page = section[1]
+    until_page = section[2]
 
     # get suffix for chapter file name: XXX_chapter_1, XXX_chapter_2 ...
     # chapter_0 means TOC for now
     part_name = orig_filename.replace('.pdf', '') \
             + '_chapter_' \
-            + str(outlines.index(until_page)) \
+            + str(outlines.index(sections)) \
             + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
@@ -120,6 +120,7 @@ for until_page in outlines:
     # e.g: page = 58, then the real page num is 59
     # similary, pp.0 to x = (real) pp.1 to (x+1)
     # until_page is the first page of the next chp/sec in reality
+    # A starting page must be given otherwise writer will start at first page!
     for page in range(start_page, until_page - 1):
         writer.addPage(reader.getPage(page))
     
