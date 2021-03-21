@@ -25,11 +25,15 @@ elif os_name.startswith('darwin'):
 
 # passing cmd line argvs
 orig_filename = str(sys.argv[1])
-orig_filedir = CDL_DIR + orig_filename
-part_scheme = CDL_DIR + str(sys.argv[2])
+orig_filedir = os.path.join(CDL_DIR + orig_filename)
+part_scheme = os.path.join(CDL_DIR + str(sys.argv[2]))
 barcode = str(sys.argv[3]) + '_'
+# os.mkdir returns none type but create it anyway since I need it
 DEST_DIR = os.mkdir(CDL_DIR + barcode + orig_filename.replace('.pdf', '/'))
-DEST_DIR_STR = CDL_DIR + barcode + orig_filename.replace('.pdf', '/')
+# to use DEST_DIR as a string, concate them using os.path.join
+DEST_DIR_STR = os.path.join(CDL_DIR \
+        + barcode \
+        + orig_filename.replace('.pdf', '/'))
 
 # get the page ranges for each part, e.g:
 # [
@@ -108,6 +112,7 @@ for until_page in outlines:
     part_name = orig_filename.replace('.pdf', '') \
             + '_chapter_' \
             + str(outlines.index(until_page))
+            + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
     # pages begin at 0 so below: page = real_page_num - 1
@@ -120,7 +125,7 @@ for until_page in outlines:
     # update start_page to be used for the next loop
     start_page = until_page - 1
     # once got the partial PDF, save it to destination
-    with open(DEST_DIR_STR + part_name + '.pdf', 'wb') as chp:
+    with open(os.path.join(DEST_DIR_STR + part_name), 'wb') as chp:
         writer.write(chp)
 
 
