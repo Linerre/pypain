@@ -64,24 +64,36 @@ with open(part_scheme, 'r', encoding='utf-8') as part:
 
 # pre-process some elements in outlines:
 # e.g. : t-->toc; 1--> chapter_1; i-->index
+def integer_page(sec_list):
+    for _, start, until in section_with_range:
+        sec_list[sec_list.index(start)] = int(start)
+        sec_list[sec_list.index(until)] = int(until))
 for sec in outlines:
     # I miss the swtich/case statement in C so much:
     if sec[0] == 't':
         sec[0] = 'toc'
+        integer_page(sec)
     elif sec[0].isdigit():
         sec[0] = '_chapter_' + sec[0]
+        integer_page(sec)
     elif sec[0] == 'i':
         sec[0] = '_index'
+        integer_page(sec)
     elif sec[0] == 'r':
         sec[0] = '_reference'
+        integer_page(sec)
     elif sec[0] == 'n':
         sec[0] = '_notes'
+        integer_page(sec)
     elif sec[0] == 'b':
         sec[0] = '_bibliography'
+        integer_page(sec)
     elif sec[0] == 'p':
         sec[0] = '_preface'
+        integer_page(sec)
     elif sec[0] == 'o':
         sec[0] = '_introdcution'
+        integer_page(sec)
 
 # create PDF reader obj
 reader = pdf.PdfFileReader(orig_filedir)
