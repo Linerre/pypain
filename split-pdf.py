@@ -55,11 +55,12 @@ DEST_DIR_STR = CDL_DIR + barcode + orig_filename.replace('.pdf', '/')
 #   ...
 #   99	---chapter10
 # ]
+# such page nums stored in a txt file
 with open(part_scheme, 'r', encoding='utf-8') as part:
      outlines = [int(chp.replace('\n','')) for chp in part.readlines()]
 
 
-# get PDF reader obj
+# create PDF reader obj
 reader = pdf.PdfFileReader(orig_filedir)
 
 # start splitting PDF based on the part_scheme
@@ -77,12 +78,15 @@ for until_page in outlines:
             + str(outlines.index(until_page))
 
     # with a brand new (empty if you will) writer, start adding
-    for page in range(start_page, until_page):
+    # pages begin at 0 so below: page = real_page_num - 1
+    # e.g: page = 58, then the real page num is 59
+    # similary, pp.0 to x = (real) pp.1 to (x+1)
+    # until_page is the first page of the next chp/sec in reality
+    for page in range(start_page, until_page - 1):
         writer.addPage(reader.getPage(page))
     
     # update start_page to be used for the next loop
-    start_page = until_page
-
+    start_page = until_page - 1
     # once got the partial PDF, save it to destination
     with open(DEST_DIR_STR + part_name + '.pdf', 'wb') as chp:
         writer.write(chp)
