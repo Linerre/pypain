@@ -72,7 +72,9 @@ for until_page in outlines:
 
     # get suffix for chapter file name: XXX_chapter_1, XXX_chapter_2 ...
     # chapter_0 means TOC for now
-    part_name = 'chapter' + '_' + str(outlines.index(until_page))
+    part_name = orig_filename.replace('.pdf', '') \
+            + 'chapter_' \
+            + str(outlines.index(until_page))
 
     # with a brand new (empty if you will) writer, start adding
     for page in range(start_page, until_page):
@@ -86,4 +88,4 @@ for until_page in outlines:
         writer.write(chp)
 
 
-
+print('JOB DONE')
