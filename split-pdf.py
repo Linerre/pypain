@@ -74,7 +74,7 @@ def integer_page(sec_list):
 for sec in outlines:
     # I miss the swtich/case statement in C so much:
     if sec[0] == 't':
-        sec[0] = 'toc'
+        sec[0] = '_TOC'
         integer_page(sec)
     elif sec[0].isdigit():
         sec[0] = '_chapter_' + sec[0]
@@ -112,7 +112,7 @@ for section in outlines:
     # get suffix for chapter file name: XXX_chapter_1, XXX_chapter_2 ...
     # chapter_0 means TOC for now
     part_name = orig_filename.replace('.pdf', '') \
-            + '_chapter_' \
+            + section[0] \
             + str(outlines.index(section)) \
             + '.pdf'
 
