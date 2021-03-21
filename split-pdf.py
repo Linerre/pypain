@@ -10,15 +10,21 @@ name being the same as the original PDF.
 import PyPDF2 as pdf
 import os
 import sys
+import getpass
 
 
-
+# os and user info for file path
+os_name = sys.platform
+user_name = getpass.getuser()
 # PDF file location
-# Windows
-# CDL_DIR = 'C:\\Users\\user\\Desktop\\CDL\\' 
-
-# macOS for testing only
-CDL_DIR = '/Users/leon/Desktop/'
+if os_name.startswith('win32'):
+    # Windows
+    CDL_DIR = f'C:\\Users\\{user_name}\\Desktop\\CDL\\' 
+elif os_name.startswith('darwin'):
+    # macOS for testing only
+    CDL_DIR = f'/Users/{user_name}/Desktop/'
+elif os_name.startswith('linux'):
+    CDL_DIR = f'/home/{user_name}/Document/'
 
 # passing cmd line argvs
 orig_filename = str(sys.argv[1])
@@ -36,28 +42,43 @@ DEST_DIR_STR = CDL_DIR + barcode + orig_filename.replace('.pdf', '/')
 #   ...
 #   [99, 105]	---chapter10
 # ]
+# with open(part_scheme, 'r', encoding='utf-8') as part:
+#     outlines = [chp.replace('\n', '').split('-') for chp in part.readlines()]
+
+# since pages begin at 0 according to 
+# https://pythonhosted.org/PyPDF2/PdfFileReader.html#PyPDF2.PdfFileReader.getPage
+# only the up-to page number is needed, e.g:
+# [
+#   10	---TOC
+#   11	---chapter1
+#   27	---chapter2
+#   ...
+#   99	---chapter10
+# ]
 with open(part_scheme, 'r', encoding='utf-8') as part:
-    outlines = [chp.replace('\n', '').split('-') for chp in part.readlines()]
+     outlines = [int(chp.replace('\n','')) for chp in part.readlines()]
+
 
 # get PDF reader obj
 reader = pdf.PdfFileReader(orig_filedir)
 
 # start splitting PDF based on the part_scheme
-for page_range in outlines:
+for until_page in outlines:
     # writer has good memory and will remember previouly-added pages
     # so each time writer needs to overriding
     writer = pdf.PdfFileWriter()
 
     # get suffix for chapter file name: XXX_chapter_1, XXX_chapter_2 ...
     # chapter_0 means TOC for now
-    part_name = 'chapter' + '_' + str(outlines.index(page_range))
+    part_name = 'chapter' + '_' + str(outlines.index(until_page))
 
     # with a brand new (empty if you will) writer, start adding
-    for page in range(int(page_range[0]), int(page_range[1])+1):
+    for page in range(until_page):
         writer.addPage(reader.getPage(page))
-
 
     # once got the partial PDF, save it to destination
     with open(DEST_DIR_STR + part_name, 'wb') as chp:
         writer.write(chp)
+
+
 
