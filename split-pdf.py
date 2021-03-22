@@ -39,7 +39,9 @@ barcode = str(sys.argv[3]) + '_'
 
 # create target children dir for the title
 # os.mkdir returns none type but create it anyway since I need it
-DEST_DIR = os.mkdir(CDL_TARG_DIR + barcode + orig_filename.replace('.pdf', ''))
+DEST_DIR = os.mkdir(os.path.join(CDL_TARG_DIR, \
+        barcode, \
+        orig_filename.replace('.pdf', '')))
 # to use DEST_DIR as a string, concate them using os.path.join
 DEST_DIR_STR = os.path.join(CDL_TARG_DIR, \
         barcode, \
