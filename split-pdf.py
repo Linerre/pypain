@@ -18,15 +18,22 @@ os_name = sys.platform
 # PDF file location
 if os_name.startswith('win32'):
     # Windows
-    CDL_DIR = os.path.join(os.environ['USERPROFILE'], 'Desktop', 'CDL')
+    # original location for PDF files
+    CDL_ORIG_DIR = os.path.join(os.environ['USERPROFILE'], \
+                                'Dropbox', \
+                                'Han - NYU')
+    # target location for splitted files
+    CDL_TARG_DIR = os.path.join(os.environ['USERPROFILE'], \
+                                'Desktop', \
+                                'CDL')
 elif os_name.startswith('darwin'):
     # macOS for testing only
     CDL_DIR = os.path.join(os.environ['HOME'], 'Desktop')
 
 # passing cmd line argvs
 orig_filename = str(sys.argv[1])
-orig_filedir = os.path.join(CDL_DIR + orig_filename)
-part_scheme = os.path.join(CDL_DIR + str(sys.argv[2]))
+orig_filedir = os.path.join(CDL_ORIG_DIR + orig_filename)
+part_scheme = os.path.join(CDL_TARG_DIR + str(sys.argv[2]))
 barcode = str(sys.argv[3]) + '_'
 
 
