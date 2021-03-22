@@ -36,6 +36,8 @@ orig_filedir = os.path.join(CDL_ORIG_DIR, orig_filename)
 part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
 separator = '_'
 barcode = str(sys.argv[3]) + separator 
+# let user decide which level shall be used, e.g.: chapter/section/part
+part_level = str(sys.argv[4])
 # all splitted chapters will be stored in a dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
 targ_filedir = barcode + orig_filename.strip('.pdf')
@@ -80,12 +82,9 @@ for sec in outlines:
     if sec[0] == 't':
         sec[0] = 'TOC'
         integer_page(sec)
+    # in this particular case, sec[0] = 1,2,3, ...
     elif sec[0].isdigit():
-        sec[0] = 'chapter' + separator + sec[0]
-        integer_page(sec)
-    elif sec[0] == 's':
-        # make sure first part always directly follows toc
-        sec[0] = 'part' + separator + str(outlines.index(sec))
+        sec[0] = part_level + separator + sec[0]
         integer_page(sec)
     elif sec[0] == 'i':
         sec[0] = 'index'
