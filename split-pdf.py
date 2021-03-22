@@ -34,7 +34,8 @@ elif os_name.startswith('darwin'):
 orig_filename = str(sys.argv[1])
 orig_filedir = os.path.join(CDL_ORIG_DIR, orig_filename)
 part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
-barcode = str(sys.argv[3]) + '_'
+separator = '_'
+barcode = str(sys.argv[3]) + separator 
 # all splitted chapters will be stored in a dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
 targ_filedir = barcode + orig_filename.strip('.pdf')
@@ -85,32 +86,32 @@ def integer_page(sec_list):
 for sec in outlines:
     # I miss the swtich/case statement in C so much:
     if sec[0] == 't':
-        sec[0] = '_TOC_'
+        sec[0] = 'TOC'
         integer_page(sec)
     elif sec[0].isdigit():
-        sec[0] = '_chapter_' + sec[0]
+        sec[0] = 'chapter' + separator + sec[0]
         integer_page(sec)
     elif sec[0] == 's':
         # make sure first part always directly follows toc
-        sec[0] = '_part_' + str(outlines.index(sec))
+        sec[0] = 'part' + separator + str(outlines.index(sec))
         integer_page(sec)
     elif sec[0] == 'i':
-        sec[0] = '_index_'
+        sec[0] = 'index'
         integer_page(sec)
     elif sec[0] == 'r':
-        sec[0] = '_reference_'
+        sec[0] = 'reference'
         integer_page(sec)
     elif sec[0] == 'n':
-        sec[0] = '_notes_'
+        sec[0] = 'notes'
         integer_page(sec)
     elif sec[0] == 'b':
-        sec[0] = '_bibliography_'
+        sec[0] = 'bibliography'
         integer_page(sec)
     elif sec[0] == 'p':
-        sec[0] = '_preface_'
+        sec[0] = 'preface'
         integer_page(sec)
     elif sec[0] == 'o':
-        sec[0] = '_introdcution_'
+        sec[0] = 'introdcution'
         integer_page(sec)
 
 # create PDF reader obj
@@ -126,7 +127,7 @@ for sec in outlines:
     until_page = sec[2]
 
     # set chapter file name string, e.g.: barcode_title_chapter_1.pdf
-    part_name = targ_filedir + sec_name + '.pdf'
+    part_name = targ_filedir + separator + sec_name + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
     # pages begin at 0 so below: page = real_page_num - 1
