@@ -35,17 +35,18 @@ orig_filename = str(sys.argv[1])
 orig_filedir = os.path.join(CDL_ORIG_DIR, orig_filename)
 part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
 barcode = str(sys.argv[3]) + '_'
+# all splitted chapters will be stored in a dir named like
+# barcode_title under the CDL_TARG_PARENT_DIR
+targ_filedir = barcode + orig_filename.strip('.pdf')
 
 
 # create target children dir for the title
 # os.mkdir returns none type but create it anyway since I need it
 CDL_TARG_CHILDREN_DIR = os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, \
-        barcode, \
-        orig_filename.replace('.pdf', '')))
+        targ_filedir))
 # to use CDL_TARG_CHILDREN_DIR as a string as well
-CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_DIR, \
-        barcode, \
-        orig_filename.replace('.pdf', ''))
+CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_PARENT_DIR, \
+        targ_filedir)
 
 # get the page ranges for each part, e.g:
 # [
