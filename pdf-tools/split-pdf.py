@@ -7,14 +7,18 @@ all chapters stored in a dir with the
 name being the same as the original PDF.
 """
 
-import PyPDF2 as pdf
+# standard libs
 import os
 import os.path
 import sys
 
+# 3rd-party libs
+import PyPDF2 as pdf
+
 
 # os and user info for file path
 os_name = sys.platform
+
 # PDF file location
 if os_name.startswith('win32'):
     # Windows
