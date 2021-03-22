@@ -23,7 +23,7 @@ if os_name.startswith('win32'):
                                 'Dropbox', \
                                 'Han - NYU')
     # target root/parent dir for splitted files
-    CDL_TARG_DIR = os.path.join(os.environ['USERPROFILE'], \
+    CDL_TARG_PARENT_DIR = os.path.join(os.environ['USERPROFILE'], \
                                 'Desktop', \
                                 'CDL')
 elif os_name.startswith('darwin'):
@@ -33,19 +33,19 @@ elif os_name.startswith('darwin'):
 # passing cmd line argvs
 orig_filename = str(sys.argv[1])
 orig_filedir = os.path.join(CDL_ORIG_DIR, orig_filename)
-part_scheme = os.path.join(CDL_TARG_DIR, str(sys.argv[2]))
+part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
 barcode = str(sys.argv[3]) + '_'
 
 
 # create target children dir for the title
 # os.mkdir returns none type but create it anyway since I need it
-DEST_DIR = os.mkdir(os.path.join(CDL_TARG_DIR, \
+CDL_TARG_CHILDREN_DIR = os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, \
         barcode, \
         orig_filename.replace('.pdf', '')))
-# to use DEST_DIR as a string, concate them using os.path.join
-DEST_DIR_STR = os.path.join(CDL_TARG_DIR, \
+# to use CDL_TARG_CHILDREN_DIR as a string as well
+CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_DIR, \
         barcode, \
-        orig_filename.replace('.pdf', '/'))
+        orig_filename.replace('.pdf', ''))
 
 # get the page ranges for each part, e.g:
 # [
@@ -142,7 +142,7 @@ for section in outlines:
     # update start_page to be used for the next loop
     start_page = until_page
     # once got the partial PDF, save it to destination
-    with open(os.path.join(DEST_DIR_STR, part_name), 'wb') as chp:
+    with open(os.path.join(CDL_TARG_CHILDREN_DIR_STR, part_name), 'wb') as chp:
         writer.write(chp)
 
     print(f'Section/Part/Chapter {sec} done.')
