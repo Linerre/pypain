@@ -32,8 +32,8 @@ elif os_name.startswith('darwin'):
 
 # passing cmd line argvs
 orig_filename = str(sys.argv[1])
-orig_filedir = os.path.join(CDL_ORIG_DIR + orig_filename)
-part_scheme = os.path.join(CDL_TARG_DIR + str(sys.argv[2]))
+orig_filedir = os.path.join(CDL_ORIG_DIR, orig_filename)
+part_scheme = os.path.join(CDL_TARG_DIR, str(sys.argv[2]))
 barcode = str(sys.argv[3]) + '_'
 
 
@@ -41,9 +41,9 @@ barcode = str(sys.argv[3]) + '_'
 # os.mkdir returns none type but create it anyway since I need it
 DEST_DIR = os.mkdir(CDL_TARG_DIR + barcode + orig_filename.replace('.pdf', ''))
 # to use DEST_DIR as a string, concate them using os.path.join
-DEST_DIR_STR = os.path.join(CDL_TARG_DIR \
-        + barcode \
-        + orig_filename.replace('.pdf', '/'))
+DEST_DIR_STR = os.path.join(CDL_TARG_DIR, \
+        barcode, \
+        orig_filename.replace('.pdf', '/'))
 
 # get the page ranges for each part, e.g:
 # [
@@ -140,7 +140,7 @@ for section in outlines:
     # update start_page to be used for the next loop
     start_page = until_page
     # once got the partial PDF, save it to destination
-    with open(os.path.join(DEST_DIR_STR + part_name), 'wb') as chp:
+    with open(os.path.join(DEST_DIR_STR, part_name), 'wb') as chp:
         writer.write(chp)
 
     print(f'Section/Part/Chapter {sec} done.')
