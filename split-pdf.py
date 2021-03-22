@@ -21,7 +21,7 @@ if os_name.startswith('win32'):
     CDL_DIR = os.path.join(os.environ['USERPROFILE'], 'Desktop', 'CDL')
 elif os_name.startswith('darwin'):
     # macOS for testing only
-    CDL_DIR = os.path.join(os.environ['HOME'], 'Desktop/')
+    CDL_DIR = os.path.join(os.environ['HOME'], 'Desktop')
 
 # passing cmd line argvs
 orig_filename = str(sys.argv[1])
