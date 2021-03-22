@@ -65,7 +65,9 @@ CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_PARENT_DIR, \
 # it is convenient to name a chapter_X file later
 # such page ranges are stored in a txt file
 with open(part_scheme, 'r', encoding='utf-8') as part:
-     outlines = [sec.strip('\n').split(',') for sec in part.readlines()]
+     outlines = [sec.strip('\n').split(',') \
+             for sec in part.readlines()\
+             if sec != '\n']
 
 # pre-process some elements in outlines:
 # e.g. : t-->toc; 1--> chapter_1; i-->index
@@ -102,6 +104,11 @@ for sec in outlines:
         integer_page(sec)
     elif sec[0] == 'o':
         sec[0] = 'introdcution'
+        integer_page(sec)
+    elif sec[0] == 'g':
+        sec[0] = 'glossary'
+        integer_page(sec)
+    else: 
         integer_page(sec)
 
 # create PDF reader obj
