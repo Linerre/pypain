@@ -79,6 +79,9 @@ for sec in outlines:
     elif sec[0].isdigit():
         sec[0] = '_chapter_' + sec[0]
         integer_page(sec)
+    elif sec[0] == 's':
+        sec[0] = '_part_' + str(outlines.index(sec)+1)
+        integer_page(sec)
     elif sec[0] == 'i':
         sec[0] = '_index'
         integer_page(sec)
@@ -120,13 +123,14 @@ for section in outlines:
     # pages begin at 0 so below: page = real_page_num - 1
     # e.g: page = 58, then the real page num is 59
     # similary, pp.0 to x = (real) pp.1 to (x+1)
-    # until_page is the first page of the next chp/sec in reality
-    # A starting page must be given otherwise writer will start at first page!
+    # until_page is the last page of the current chp/sec in reality
+    # A starting page must be given 
+    # otherwise writer will always start at first page!
     for page in range(start_page - 1, until_page - 1):
         writer.addPage(reader.getPage(page))
     
     # update start_page to be used for the next loop
-    start_page = until_page - 1
+    start_page = until_page
     # once got the partial PDF, save it to destination
     with open(os.path.join(DEST_DIR_STR + part_name), 'wb') as chp:
         writer.write(chp)
