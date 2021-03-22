@@ -50,17 +50,7 @@ CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_PARENT_DIR, \
         targ_filedir)
 
 # get the page ranges for each part, e.g:
-# [
-#   [1,10]	---TOC
-#   [11,26]	---chapter1
-#   [27,48]	---chapter2
-#   ...
-#   [99, 105]	---chapter10
-# ]
-# with open(part_scheme, 'r', encoding='utf-8') as part:
-#     outlines = [chp.replace('\n', '').split('-') for chp in part.readlines()]
-
-# since pages begin at 0 according to 
+# pages begin at 0 according to 
 # https://pythonhosted.org/PyPDF2/PdfFileReader.html#PyPDF2.PdfFileReader.getPage
 # [
 #   [t,1,10]	---TOC(t)
