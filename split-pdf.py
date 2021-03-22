@@ -85,50 +85,47 @@ def integer_page(sec_list):
 for sec in outlines:
     # I miss the swtich/case statement in C so much:
     if sec[0] == 't':
-        sec[0] = '_TOC'
+        sec[0] = '_TOC_'
         integer_page(sec)
     elif sec[0].isdigit():
         sec[0] = '_chapter_' + sec[0]
         integer_page(sec)
     elif sec[0] == 's':
-        sec[0] = '_part_' + str(outlines.index(sec)+1)
+        sec[0] = '_part_' 
         integer_page(sec)
     elif sec[0] == 'i':
-        sec[0] = '_index'
+        sec[0] = '_index_'
         integer_page(sec)
     elif sec[0] == 'r':
-        sec[0] = '_reference'
+        sec[0] = '_reference_'
         integer_page(sec)
     elif sec[0] == 'n':
-        sec[0] = '_notes'
+        sec[0] = '_notes_'
         integer_page(sec)
     elif sec[0] == 'b':
-        sec[0] = '_bibliography'
+        sec[0] = '_bibliography_'
         integer_page(sec)
     elif sec[0] == 'p':
-        sec[0] = '_preface'
+        sec[0] = '_preface_'
         integer_page(sec)
     elif sec[0] == 'o':
-        sec[0] = '_introdcution'
+        sec[0] = '_introdcution_'
         integer_page(sec)
 
 # create PDF reader obj
 reader = pdf.PdfFileReader(orig_filedir)
 
 # start splitting PDF based on the part_scheme
-for section in outlines:
+for sec in outlines:
     # writer has good memory and will remember previouly-added pages
     # so each time writer needs overriding
     writer = pdf.PdfFileWriter()
-    start_page = section[1]
-    until_page = section[2]
+    sec_name = sec[0]
+    start_page = sec[1]
+    until_page = sec[2]
 
-    # get suffix for chapter file name: XXX_chapter_1, XXX_chapter_2 ...
-    # chapter_0 means TOC for now
-    part_name = orig_filename.replace('.pdf', '') \
-            + section[0] \
-            + str(outlines.index(section)) \
-            + '.pdf'
+    # set chapter file name string, e.g.: barcode_title_chapter_1.pdf
+    part_name = targ_filedir + sec_name + str(outlines.index(sec)) + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
     # pages begin at 0 so below: page = real_page_num - 1
