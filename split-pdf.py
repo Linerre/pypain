@@ -18,11 +18,11 @@ os_name = sys.platform
 # PDF file location
 if os_name.startswith('win32'):
     # Windows
-    # original location for PDF files
+    # original root/parent dir for PDF files
     CDL_ORIG_DIR = os.path.join(os.environ['USERPROFILE'], \
                                 'Dropbox', \
                                 'Han - NYU')
-    # target location for splitted files
+    # target root/parent dir for splitted files
     CDL_TARG_DIR = os.path.join(os.environ['USERPROFILE'], \
                                 'Desktop', \
                                 'CDL')
@@ -37,10 +37,11 @@ part_scheme = os.path.join(CDL_TARG_DIR + str(sys.argv[2]))
 barcode = str(sys.argv[3]) + '_'
 
 
+# create target children dir for the title
 # os.mkdir returns none type but create it anyway since I need it
-DEST_DIR = os.mkdir(CDL_DIR + barcode + orig_filename.replace('.pdf', ''))
+DEST_DIR = os.mkdir(CDL_TARG_DIR + barcode + orig_filename.replace('.pdf', ''))
 # to use DEST_DIR as a string, concate them using os.path.join
-DEST_DIR_STR = os.path.join(CDL_DIR \
+DEST_DIR_STR = os.path.join(CDL_TARG_DIR \
         + barcode \
         + orig_filename.replace('.pdf', '/'))
 
@@ -141,6 +142,8 @@ for section in outlines:
     # once got the partial PDF, save it to destination
     with open(os.path.join(DEST_DIR_STR + part_name), 'wb') as chp:
         writer.write(chp)
+
+    print(f'Section/Part/Chapter {sec} done.')
 
 
 print('JOB DONE')
