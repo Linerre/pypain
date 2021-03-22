@@ -91,7 +91,8 @@ for sec in outlines:
         sec[0] = '_chapter_' + sec[0]
         integer_page(sec)
     elif sec[0] == 's':
-        sec[0] = '_part_' 
+        # make sure first part always directly follows toc
+        sec[0] = '_part_' + str(outlines.index(sec))
         integer_page(sec)
     elif sec[0] == 'i':
         sec[0] = '_index_'
@@ -125,7 +126,7 @@ for sec in outlines:
     until_page = sec[2]
 
     # set chapter file name string, e.g.: barcode_title_chapter_1.pdf
-    part_name = targ_filedir + sec_name + str(outlines.index(sec)) + '.pdf'
+    part_name = targ_filedir + sec_name + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
     # pages begin at 0 so below: page = real_page_num - 1
