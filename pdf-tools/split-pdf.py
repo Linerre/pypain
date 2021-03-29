@@ -46,7 +46,7 @@ part_level = str(sys.argv[4])
 
 # all splitted chapters will be stored in a dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
-targ_filedir = barcode + orig_filename.strip('.pdf')
+targ_filedir = barcode + orig_filename.rstrip('.pdf')
 
 
 # create target children dir for the title
@@ -74,7 +74,7 @@ CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_PARENT_DIR, \
 # it is convenient to name a chapter_X file later
 # such page ranges are stored in a txt file
 with open(part_scheme, 'r', encoding='utf-8') as part:
-     outlines = [sec.strip('\n').split(',') \
+     outlines = [sec.rstrip('\n').split(',') \
              for sec in part.readlines()\
              if sec != '\n']
 
