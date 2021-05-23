@@ -11,6 +11,7 @@ name being the same as the original PDF.
 import os
 import os.path
 import sys
+import argparse
 
 # 3rd-party libs
 import PyPDF2 as pdf
@@ -19,7 +20,7 @@ import PyPDF2 as pdf
 # os and user info for file path
 os_name = sys.platform
 
-# PDF file location
+# PDF files location
 if os_name.startswith('win32'):
     # Windows
     # original root/parent dir for PDF files
@@ -30,13 +31,21 @@ if os_name.startswith('win32'):
     CDL_TARG_PARENT_DIR = os.path.join(os.environ['USERPROFILE'], \
                                 'Desktop', \
                                 'CDL')
-elif os_name.startswith('darwin'):
-    # macOS for testing only
+elif os_name.startswith('darwin') or os_name.startswith('posix'):
+    # macOS or Linux for testing only
     CDL_ORIG_DIR = CDL_TARG_PARENT_DIR = os.path.join(os.environ['HOME'], 'Desktop')
 
 # passing cmd line argvs
-orig_filename = str(sys.argv[1])
+parser = argparse.ArgumentParser(description='Split PDF into chapters or sections')
+
+# 1st arg: original filename
+parser.add_argument('filename', help='file name of the PDF to be splitted; double-quoted if name has spaces')
+#orig_filename = str(sys.argv[1])
+
 orig_filedir = os.path.join(CDL_ORIG_DIR, orig_filename)
+
+# 2nd arg: splitting schema: chapter, part, section
+parser.add_argument('-s', '--schema', default='chapter', choices=['chapter','secton','part'])
 part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
 separator = '_'
 barcode = str(sys.argv[3]) + separator 
