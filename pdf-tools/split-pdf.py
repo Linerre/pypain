@@ -48,6 +48,9 @@ orig_filedir = os.path.join(CDL_ORIG_DIR, orig_filename)
 parser.add_argument('-s', '--schema', default='chapter', choices=['chapter','secton','part'])
 part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
 separator = '_'
+
+# 3rd arg: barcode
+parser.add_argument('barcode', help='barcode of the item to be splitted')
 barcode = str(sys.argv[3]) + separator 
 
 # let user decide which level shall be used, e.g.: chapter/section/part
