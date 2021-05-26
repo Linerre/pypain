@@ -47,7 +47,7 @@ parser.add_argument('barcode', help='barcode of the item to be splitted')
 #barcode = str(sys.argv[3]) + separator 
 
 # 3rd arg: schema
-parser.add_argument('schema', help='a txt file in which describes how the pdf will be splitted')
+parser.add_argument('schema', help='a txt file which describes how the pdf will be splitted')
 
 # 4th arg: spliited part name: chapter, part, section
 parser.add_argument('-p', '--part', default='chapter', choices=['chapter','secton','part'])
