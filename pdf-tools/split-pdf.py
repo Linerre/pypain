@@ -36,40 +36,40 @@ elif os_name.startswith('darwin') or os_name.startswith('linux'):
     CDL_ORIG_DIR = CDL_TARG_PARENT_DIR = os.path.join(os.environ['HOME'], 'Desktop')
 
 # passing cmd line argvs
-parser = argparse.ArgumentParser(description='Split PDF into chapters or sections')
+parser = argparse.ArgumentParser(description='Split a PDF file into parts based on a schema.txt file')
 
 # 1st arg: original filename
 parser.add_argument('filename', help='file name of the PDF to be splitted; double-quoted if name has spaces')
 #orig_filename = str(sys.argv[1])
-orig_filedir = os.path.join(CDL_ORIG_DIR, filename)
 
 # 2rd arg: barcode
 parser.add_argument('barcode', help='barcode of the item to be splitted')
 #barcode = str(sys.argv[3]) + separator 
 
-# 3nd arg: splitting schema: chapter, part, section
-parser.add_argument('-s', '--schema', default='chapter', choices=['chapter','secton','part'])
-#part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
-separator = '_'
+# 3rd arg: schema
+parser.add_argument('schema', help='a txt file in which describes how the pdf will be splitted')
 
-parser.arg_parse()
+# 4th arg: spliited part name: chapter, part, section
+parser.add_argument('-p', '--part', default='chapter', choices=['chapter','secton','part'])
+#args.schema = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
+
+args = parser.parse_args()
 # let user decide which level shall be used, e.g.: chapter/section/part
 #part_level = str(sys.argv[4])
 
 # all splitted chapters will be stored in a target dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
-# TODO: fix this
-targ_filedir = barcode + orig_filename.rstrip('.pdf')
+separator = '_'
+orgi_file = os.path.join(CDL_ORIG_DIR, args.filename + '.pdf')
+targ_file = args.barcode + separator + args.filename
 
 
 # create target children dir for the title
-# os.mkdir returns none type but create it anyway since I need it
-CDL_TARG_CHILDREN_DIR = os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, \
-        targ_filedir))
+os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file))
 
 # to use CDL_TARG_CHILDREN_DIR as a string as well
-CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_PARENT_DIR, \
-        targ_filedir)
+CDL_TARG_CHILDREN_DIR = os.path.join(CDL_TARG_PARENT_DIR, \
+        targ_file)
 
 # get the page ranges for each part, e.g:
 # pages begin at 0 according to 
@@ -86,7 +86,7 @@ CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_PARENT_DIR, \
 # using 1,2,3,4 ... to represent chapters simply because
 # it is convenient to name a chapter_X file later
 # such page ranges are stored in a txt file
-with open(part_scheme, 'r', encoding='utf-8') as part:
+with open(args.schema + '.txt', 'r', encoding='utf-8') as part:
      outlines = [sec.rstrip('\n').split(',')\
              for sec in part.readlines()\
              if sec != '\n']
@@ -103,8 +103,10 @@ for sec in outlines:
         sec[0] = 'TOC'
         integer_page(sec)
     # in this particular case, sec[0] = 1,2,3, ...
+    # if this is the case, then use whatever cmd arg passed: chapter/section/part ...
     elif sec[0].isdigit():
-        sec[0] = part_level + separator + sec[0]
+        #sec[0] = part_level + separator + sec[0]
+        sec[0] = args.schema + separator + sec[0]
         integer_page(sec)
     elif sec[0] == 'i':
         sec[0] = 'index'
@@ -131,9 +133,9 @@ for sec in outlines:
         integer_page(sec)
 
 # create PDF reader obj
-reader = pdf.PdfFileReader(orig_filedir)
+reader = pdf.PdfFileReader(orgi_file)
 
-# start splitting PDF based on the part_scheme
+# start splitting PDF based on the args.schema
 for sec in outlines:
     # writer has good memory and will remember previouly-added pages
     # so each time writer needs overriding
@@ -143,7 +145,7 @@ for sec in outlines:
     until_page = sec[2]
 
     # set chapter file name string, e.g.: barcode_title_chapter_1.pdf
-    part_name = targ_filedir + separator + sec_name + '.pdf'
+    part_name = targ_file + separator + sec_name + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
     # pages begin at 0 so below: page = real_page_num - 1
@@ -151,17 +153,17 @@ for sec in outlines:
     # similary, pp.0 to x = (real) pp.1 to (x+1)
     # until_page is the last page of the current chp/sec in reality
     # A starting page must be given 
-    # otherwise writer will always start at first page!
+    # otherwise writer will always start at the first real page!
     for page in range(start_page - 1, until_page - 1):
         writer.addPage(reader.getPage(page))
     
     # update start_page to be used for the next loop
-    start_page = until_page
+    # start_page = until_page
     # once got the partial PDF, save it to destination
-    with open(os.path.join(CDL_TARG_CHILDREN_DIR_STR, part_name), 'wb') as chp:
+    with open(os.path.join(CDL_TARG_CHILDREN_DIR, part_name), 'wb') as chp:
         writer.write(chp)
 
-    print(f'Section/Part/Chapter {sec} done.')
+    print(f'{args.part} {sec} done.')
 
 
 print('JOB DONE')
