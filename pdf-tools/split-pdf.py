@@ -14,7 +14,7 @@ import sys
 import argparse
 
 # 3rd-party libs
-#import PyPDF2 as pdf
+import PyPDF2 as pdf
 
 
 # os and user info for file path
