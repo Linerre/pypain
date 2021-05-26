@@ -14,7 +14,7 @@ import sys
 import argparse
 
 # 3rd-party libs
-import PyPDF2 as pdf
+#import PyPDF2 as pdf
 
 
 # os and user info for file path
@@ -31,7 +31,7 @@ if os_name.startswith('win32'):
     CDL_TARG_PARENT_DIR = os.path.join(os.environ['USERPROFILE'], \
                                 'Desktop', \
                                 'CDL')
-elif os_name.startswith('darwin') or os_name.startswith('posix'):
+elif os_name.startswith('darwin') or os_name.startswith('linux'):
     # macOS or Linux for testing only
     CDL_ORIG_DIR = CDL_TARG_PARENT_DIR = os.path.join(os.environ['HOME'], 'Desktop')
 
@@ -41,23 +41,24 @@ parser = argparse.ArgumentParser(description='Split PDF into chapters or section
 # 1st arg: original filename
 parser.add_argument('filename', help='file name of the PDF to be splitted; double-quoted if name has spaces')
 #orig_filename = str(sys.argv[1])
+orig_filedir = os.path.join(CDL_ORIG_DIR, filename)
 
-orig_filedir = os.path.join(CDL_ORIG_DIR, orig_filename)
+# 2rd arg: barcode
+parser.add_argument('barcode', help='barcode of the item to be splitted')
+#barcode = str(sys.argv[3]) + separator 
 
-# 2nd arg: splitting schema: chapter, part, section
+# 3nd arg: splitting schema: chapter, part, section
 parser.add_argument('-s', '--schema', default='chapter', choices=['chapter','secton','part'])
-part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
+#part_scheme = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
 separator = '_'
 
-# 3rd arg: barcode
-parser.add_argument('barcode', help='barcode of the item to be splitted')
-barcode = str(sys.argv[3]) + separator 
-
+parser.arg_parse()
 # let user decide which level shall be used, e.g.: chapter/section/part
-part_level = str(sys.argv[4])
+#part_level = str(sys.argv[4])
 
-# all splitted chapters will be stored in a dir named like
+# all splitted chapters will be stored in a target dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
+# TODO: fix this
 targ_filedir = barcode + orig_filename.rstrip('.pdf')
 
 
@@ -86,7 +87,7 @@ CDL_TARG_CHILDREN_DIR_STR = os.path.join(CDL_TARG_PARENT_DIR, \
 # it is convenient to name a chapter_X file later
 # such page ranges are stored in a txt file
 with open(part_scheme, 'r', encoding='utf-8') as part:
-     outlines = [sec.rstrip('\n').split(',') \
+     outlines = [sec.rstrip('\n').split(',')\
              for sec in part.readlines()\
              if sec != '\n']
 
