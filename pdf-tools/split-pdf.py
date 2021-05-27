@@ -16,7 +16,6 @@ import argparse
 # 3rd-party libs
 import PyPDF2 as pdf
 
-
 # os and user info for file path
 os_name = sys.platform
 
@@ -124,7 +123,7 @@ for sec in outlines:
         sec[0] = 'preface'
         integer_page(sec)
     elif sec[0] == 'o':
-        sec[0] = 'introdcution'
+        sec[0] = 'introduction'
         integer_page(sec)
     elif sec[0] == 'g':
         sec[0] = 'glossary'
