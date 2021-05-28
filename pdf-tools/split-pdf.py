@@ -3,7 +3,7 @@
 """
 Split PDF files into chapters;
 Each chapter as a single PDF file;
-All chapters stored in a dir name after 
+All chapters stored in a dir named after 
 The original PDF's filename.
 """
 
