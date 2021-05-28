@@ -2,9 +2,9 @@
 
 """
 Split PDF files into chapters;
-each chapter as a single PDF file;
-all chapters stored in a dir with the
-name being the same as the original PDF.
+Each chapter as a single PDF file;
+All chapters stored in a dir name after 
+The original PDF's filename.
 """
 
 # standard libs
@@ -39,22 +39,18 @@ parser = argparse.ArgumentParser(description='Split a PDF file into parts based 
 
 # 1st arg: original filename
 parser.add_argument('filename', help='file name of the PDF to be splitted; double-quoted if name has spaces')
-#orig_filename = str(sys.argv[1])
 
 # 2rd arg: barcode
 parser.add_argument('barcode', help='barcode of the item to be splitted')
-#barcode = str(sys.argv[3]) + separator 
 
 # 3rd arg: schema
 parser.add_argument('schema', help='a txt file which describes how the pdf will be splitted')
 
 # 4th arg: spliited part name: chapter, part, section
 parser.add_argument('-p', '--part', default='chapter', choices=['chapter','secton','part'])
-#args.schema = os.path.join(CDL_TARG_PARENT_DIR, str(sys.argv[2]))
 
 args = parser.parse_args()
 # let user decide which level shall be used, e.g.: chapter/section/part
-#part_level = str(sys.argv[4])
 
 # all splitted chapters will be stored in a target dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
