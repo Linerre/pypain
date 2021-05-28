@@ -30,8 +30,8 @@ if os_name.startswith('win32'):
     CDL_TARG_PARENT_DIR = os.path.join(os.environ['USERPROFILE'], \
                                 'Desktop', \
                                 'CDL')
-elif os_name.startswith('darwin') or os_name.startswith('linux'):
-    # macOS or Linux for testing only
+else: 
+    # else it will be macOS or Linux
     CDL_ORIG_DIR = CDL_TARG_PARENT_DIR = os.path.join(os.environ['HOME'], 'Desktop')
 
 # passing cmd line argvs
