@@ -24,8 +24,8 @@ if os_name.startswith('win32'):
     # Windows
     # original root/parent dir for PDF files
     CDL_ORIG_DIR = os.path.join(os.environ['USERPROFILE'], \
-                                'Dropbox', \
-                                'Han - NYU')
+                                'Desktop', \
+                                'New Arrival')
     # target root/parent dir for splitted files
     CDL_TARG_PARENT_DIR = os.path.join(os.environ['USERPROFILE'], \
                                 'Desktop', \
