@@ -38,13 +38,14 @@ else:
 parser = argparse.ArgumentParser(description='Split a PDF file into parts based on a schema.txt file')
 
 # 1st arg: original filename
-parser.add_argument('filename', help='file name of the PDF to be splitted; double-quoted if name has spaces')
+parser.add_argument('filename', help='file name without the extension of the PDF to be splitted; double-quoted if name has spaces')
 
 # 2rd arg: barcode
 parser.add_argument('barcode', help='barcode of the item to be splitted')
 
-# 3rd arg: schema
-parser.add_argument('schema', help='a txt file which describes how the pdf will be splitted')
+# 3rd arg: schema, defaults to the schema-example.txt under the same dir as this script
+parser.add_argument('schema', nargs='?', default=os.path.join(os.getcwd(), 'schema-example.txt'),\
+                    help='a txt file which describes how the pdf will be splitted')
 
 # 4th arg: spliited part name: chapter, part, section
 parser.add_argument('-p', '--part', default='chapter', choices=['chapter','secton','part'])
