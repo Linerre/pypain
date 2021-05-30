@@ -61,6 +61,7 @@ targ_file = args.barcode + separator + args.filename
 
 
 # create target children dir for the title
+# TODO: if the dir exists, then do not try to create it
 os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file))
 
 # to use CDL_TARG_CHILDREN_DIR as a string as well
