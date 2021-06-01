@@ -12,6 +12,7 @@ import os
 import os.path
 import sys
 import argparse
+from pathlib import Path
 
 # 3rd-party libs
 import PyPDF2 as pdf
@@ -62,7 +63,8 @@ targ_file = args.barcode + separator + args.filename
 
 # create target children dir for the title
 # TODO: if the dir exists, then do not try to create it
-os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file))
+if not Path(os.path.join(CDL_TARG_PARENT_DIR, targ_file)):
+    os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file))
 
 # to use CDL_TARG_CHILDREN_DIR as a string as well
 CDL_TARG_CHILDREN_DIR = os.path.join(CDL_TARG_PARENT_DIR, \
