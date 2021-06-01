@@ -83,7 +83,7 @@ CDL_TARG_CHILDREN_DIR = os.path.join(CDL_TARG_PARENT_DIR, \
 # using 1,2,3,4 ... to represent chapters simply because
 # it is convenient to name a chapter_X file later
 # such page ranges are stored in a txt file
-with open(args.schema + '.txt', 'r', encoding='utf-8') as part:
+with open(args.schema, 'r', encoding='utf-8') as part:
      outlines = [sec.rstrip('\n').split(',')\
              for sec in part.readlines()\
              if sec != '\n']
