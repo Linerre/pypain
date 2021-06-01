@@ -62,7 +62,6 @@ targ_file = args.barcode + separator + args.filename
 
 
 # create target children dir for the title
-# TODO: if the dir exists, then do not try to create it
 if not Path(os.path.join(CDL_TARG_PARENT_DIR, targ_file)):
     os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file))
 
@@ -161,7 +160,8 @@ for sec in outlines:
     # once got the partial PDF, save it to destination
     with open(os.path.join(CDL_TARG_CHILDREN_DIR, part_name), 'wb') as chp:
         writer.write(chp)
-
+    
+    # TODO: consider rjust or ljust the output
     print(f'{args.part} {sec} done.')
 
 
