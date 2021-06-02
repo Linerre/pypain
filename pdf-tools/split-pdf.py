@@ -39,7 +39,7 @@ else:
 parser = argparse.ArgumentParser(description='Split a PDF file into parts based on a schema.txt file')
 
 # 1st arg: original filename
-parser.add_argument('filename', help='file name without the extension of the PDF to be splitted; double-quoted if name has spaces')
+parser.add_argument('filename', help='file name with the PDF extension; double-quoted if name has spaces')
 
 # 2rd arg: barcode
 parser.add_argument('barcode', help='barcode of the item to be splitted')
@@ -57,7 +57,7 @@ args = parser.parse_args()
 # all splitted chapters will be stored in a target dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
 separator = '_'
-orgi_file = os.path.join(CDL_ORIG_DIR, args.filename + '.pdf')
+orgi_file = os.path.join(CDL_ORIG_DIR, args.filename)
 targ_file = args.barcode + separator + args.filename
 
 
