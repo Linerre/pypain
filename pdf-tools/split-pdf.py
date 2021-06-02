@@ -49,7 +49,7 @@ parser.add_argument('schema', nargs='?', default=os.path.join(os.getcwd(), 'sche
                     help='a txt file which describes how the pdf will be splitted')
 
 # 4th arg: spliited part name: chapter, part, section
-parser.add_argument('-p', '--part', default='chapter', choices=['chapter','secton','part'])
+parser.add_argument('-p', '--part', default='chapter', choices=['chapter','section','part'])
 
 args = parser.parse_args()
 # let user decide which level shall be used, e.g.: chapter/section/part
@@ -62,12 +62,12 @@ targ_file = args.barcode + separator + args.filename
 
 
 # create target children dir for the title
-if not Path(os.path.join(CDL_TARG_PARENT_DIR, targ_file)):
-    os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file))
+if not Path(os.path.join(CDL_TARG_PARENT_DIR, targ_file[:-4])).exists():
+    os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file[:-4]))
 
 # to use CDL_TARG_CHILDREN_DIR as a string as well
 CDL_TARG_CHILDREN_DIR = os.path.join(CDL_TARG_PARENT_DIR, \
-        targ_file)
+        targ_file[:-4])
 
 # get the page ranges for each part, e.g:
 # pages begin at 0 according to 
@@ -143,7 +143,7 @@ for sec in outlines:
     until_page = sec[2]
 
     # set chapter file name string, e.g.: barcode_title_chapter_1.pdf
-    part_name = targ_file + separator + sec_name + '.pdf'
+    part_name = targ_file[:-4] + separator + sec_name + '.pdf'
 
     # with a brand new (empty if you will) writer, start adding
     # pages begin at 0 so below: page = real_page_num - 1
