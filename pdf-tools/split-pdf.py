@@ -104,7 +104,7 @@ for sec in outlines:
     # if this is the case, then use whatever cmd arg passed: chapter/section/part ...
     elif sec[0].isdigit():
         #sec[0] = part_level + separator + sec[0]
-        sec[0] = args.schema + separator + sec[0]
+        sec[0] = args.part + separator + sec[0]
         integer_page(sec)
     elif sec[0] == 'i':
         sec[0] = 'index'
@@ -165,4 +165,4 @@ for sec in outlines:
     print(f'{args.part} {sec} done.')
 
 
-print('JOB DONE')
+print('THE PDF HAS BEEN SPLITTED')
