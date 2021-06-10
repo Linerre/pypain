@@ -19,10 +19,19 @@ parser = argparse.ArgumentParser(
 parser.add_argument('offset', default=0,
                     help='Pagination offset.\
                     Usually it is the digital page number minus the real one.')
+# 2nd arg: PDF file
 parser.add_argument('-p', '--pdf', const=None, default=None,
                     help='The absolute path to the PDF file for which a scheme\
                     is going to be generated. If omitted, then an empty scheme\
                     file will be created under the current direcotory and user\
                     will be notified by a message to stdout.')
 
-parser.parse_args()
+# Get args dict
+args = parser.parse_args()
+offset = args.offset
+pdf = args.pdf
+
+if pdf is None:
+    with open(os.path.join(os.getcwd(), 'scheme.txt'), 'w', encoding='utf-8') as f:
+        f.write('')
+    print('No PDF passed to the script. An empty scheme has been created.')
