@@ -11,7 +11,9 @@ import os.path
 import sys
 
 # parser accepts 2 command line args: offset path to the PDF
-parser = argparse.ArgumentParser(description='Generate a scheme file using the offset cmd line arg.')
+parser = argparse.ArgumentParser(
+        description='Generate a scheme file using the offset cmd line arg.',
+        prog='scheme-gen')
 
 # 1st arg: offset
 parser.add_argument('offset', default=0,
