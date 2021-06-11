@@ -3,7 +3,7 @@
 """
 Split PDF files into chapters;
 Each chapter as a single PDF file;
-All chapters stored in a dir named after 
+All chapters stored in a dir named after
 The original PDF's filename.
 """
 
@@ -24,14 +24,14 @@ os_name = sys.platform
 if os_name.startswith('win32'):
     # Windows
     # original root/parent dir for PDF files
-    CDL_ORIG_DIR = os.path.join(os.environ['USERPROFILE'], \
-                                'Desktop', \
+    CDL_ORIG_DIR = os.path.join(os.environ['USERPROFILE'],
+                                'Desktop',
                                 'New Arrival')
     # target root/parent dir for splitted files
-    CDL_TARG_PARENT_DIR = os.path.join(os.environ['USERPROFILE'], \
-                                'Desktop', \
-                                'CDL')
-else: 
+    CDL_TARG_PARENT_DIR = os.path.join(os.environ['USERPROFILE'],
+                                       'Desktop',
+                                       'CDL')
+else:
     # else it will be macOS or Linux
     CDL_ORIG_DIR = CDL_TARG_PARENT_DIR = os.path.join(os.environ['HOME'], 'Desktop')
 
@@ -45,11 +45,13 @@ parser.add_argument('filename', help='file name with the PDF extension; double-q
 parser.add_argument('barcode', help='barcode of the item to be splitted')
 
 # 3rd arg: schema, defaults to the schema-example.txt under the same dir as this script
-parser.add_argument('schema', nargs='?', default=os.path.join(os.getcwd(), 'schema-example.txt'),\
+parser.add_argument('schema', nargs='?', 
+                    default=os.path.join(os.getcwd(), 'schema-example.txt'),
                     help='a txt file which describes how the pdf will be splitted')
 
 # 4th arg: spliited part name: chapter, part, section
-parser.add_argument('-p', '--part', default='chapter', choices=['chapter','section','part'])
+parser.add_argument('-p', '--part', default='chapter',
+                    choices=['chapter', 'section', 'part'])
 
 args = parser.parse_args()
 # let user decide which level shall be used, e.g.: chapter/section/part
@@ -66,11 +68,10 @@ if not Path(os.path.join(CDL_TARG_PARENT_DIR, targ_file[:-4])).exists():
     os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file[:-4]))
 
 # to use CDL_TARG_CHILDREN_DIR as a string as well
-CDL_TARG_CHILDREN_DIR = os.path.join(CDL_TARG_PARENT_DIR, \
-        targ_file[:-4])
+CDL_TARG_CHILDREN_DIR = os.path.join(CDL_TARG_PARENT_DIR, targ_file[:-4])
 
 # get the page ranges for each part, e.g:
-# pages begin at 0 according to 
+# pages begin at 0 according to
 # https://pythonhosted.org/PyPDF2/PdfFileReader.html#PyPDF2.PdfFileReader.getPage
 # [
 #   [t,1,10]	---TOC(t)
@@ -85,9 +86,10 @@ CDL_TARG_CHILDREN_DIR = os.path.join(CDL_TARG_PARENT_DIR, \
 # it is convenient to name a chapter_X file later
 # such page ranges are stored in a txt file
 with open(args.schema, 'r', encoding='utf-8') as part:
-     outlines = [sec.rstrip('\n').split(',')\
-             for sec in part.readlines()\
-             if sec != '\n']
+    outlines = [sec.rstrip('\n').split(',')
+                for sec in part.readlines()
+                if sec != '\n']
+
 
 # pre-process some elements in outlines:
 # e.g. : t-->toc; 1--> chapter_1; i-->index
@@ -95,15 +97,16 @@ with open(args.schema, 'r', encoding='utf-8') as part:
 def integer_page(sec_list):
     sec_list[1] = int(sec_list[1])
     sec_list[2] = int(sec_list[2])
+
+
 for sec in outlines:
     # I miss the swtich/case statement in C so much:
     if sec[0] == 't':
         sec[0] = 'TOC'
         integer_page(sec)
     # in this particular case, sec[0] = 1,2,3, ...
-    # if this is the case, then use whatever cmd arg passed: chapter/section/part ...
+    # if this is the case, then use whatever cmd arg passed: chapter/section/part
     elif sec[0].isdigit():
-        #sec[0] = part_level + separator + sec[0]
         sec[0] = args.part + separator + sec[0]
         integer_page(sec)
     elif sec[0] == 'i':
@@ -150,17 +153,17 @@ for sec in outlines:
     # e.g: page = 58, then the real page num is 59
     # similary, pp.0 to x = (real) pp.1 to (x+1)
     # until_page is the last page of the current chp/sec in reality
-    # A starting page must be given 
+    # A starting page must be given
     # otherwise writer will always start at the first real page!
     for page in range(start_page - 1, until_page - 1):
         writer.addPage(reader.getPage(page))
-    
+
     # update start_page to be used for the next loop
     # start_page = until_page
     # once got the partial PDF, save it to destination
     with open(os.path.join(CDL_TARG_CHILDREN_DIR, part_name), 'wb') as chp:
         writer.write(chp)
-    
+
     # TODO: consider rjust or ljust the output
     print(f'{args.part} {sec} done.')
 
