@@ -8,32 +8,30 @@ The original PDF's filename.
 """
 
 # standard libs
-import os
-import os.path
-import sys
-import argparse
+from os import name, environ
+from os.path import abspath, join, mkdir
 from pathlib import Path
+import argparse
 
 # 3rd-party libs
 import PyPDF2 as pdf
 
 # os and user info for file path
-os_name = sys.platform
 
 # PDF files location
-if os_name.startswith('win32'):
+if name == 'nt':
     # Windows
     # original root/parent dir for PDF files
-    CDL_ORIG_DIR = os.path.join(os.environ['USERPROFILE'],
+    CDL_ORIG_DIR = join(environ['USERPROFILE'],
                                 'Desktop',
                                 'New Arrival')
     # target root/parent dir for splitted files
-    CDL_TARG_PARENT_DIR = os.path.join(os.environ['USERPROFILE'],
+    CDL_TARG_PARENT_DIR = join(environ['USERPROFILE'],
                                        'Desktop',
                                        'CDL')
-else:
+elif name == 'posix':
     # else it will be macOS or Linux
-    CDL_ORIG_DIR = CDL_TARG_PARENT_DIR = os.path.join(os.environ['HOME'], 'Desktop')
+    CDL_ORIG_DIR = CDL_TARG_PARENT_DIR = join(environ['HOME'], 'Desktop')
 
 # passing cmd line argvs
 parser = argparse.ArgumentParser(description='Split a PDF file into parts based on a schema.txt file')
@@ -45,8 +43,8 @@ parser.add_argument('filename', help='file name with the PDF extension; double-q
 parser.add_argument('barcode', help='barcode of the item to be splitted')
 
 # 3rd arg: schema, defaults to the schema-example.txt under the same dir as this script
-parser.add_argument('schema', nargs='?', 
-                    default=os.path.join(os.getcwd(), 'schema-example.txt'),
+parser.add_argument('schema', nargs='?',
+                    default=join(abspath('.'), 'schema-example.txt'),
                     help='a txt file which describes how the pdf will be splitted')
 
 # 4th arg: spliited part name: chapter, part, section
@@ -59,16 +57,16 @@ args = parser.parse_args()
 # all splitted chapters will be stored in a target dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
 separator = '_'
-orgi_file = os.path.join(CDL_ORIG_DIR, args.filename)
+orgi_file = join(CDL_ORIG_DIR, args.filename)
 targ_file = args.barcode + separator + args.filename
 
 
 # create target children dir for the title
-if not Path(os.path.join(CDL_TARG_PARENT_DIR, targ_file[:-4])).exists():
-    os.mkdir(os.path.join(CDL_TARG_PARENT_DIR, targ_file[:-4]))
+if not Path(join(CDL_TARG_PARENT_DIR, targ_file[:-4])).exists():
+    mkdir(join(CDL_TARG_PARENT_DIR, targ_file[:-4]))
 
 # to use CDL_TARG_CHILDREN_DIR as a string as well
-CDL_TARG_CHILDREN_DIR = os.path.join(CDL_TARG_PARENT_DIR, targ_file[:-4])
+CDL_TARG_CHILDREN_DIR = join(CDL_TARG_PARENT_DIR, targ_file[:-4])
 
 # get the page ranges for each part, e.g:
 # pages begin at 0 according to
@@ -130,7 +128,7 @@ for sec in outlines:
     elif sec[0] == 'g':
         sec[0] = 'glossary'
         integer_page(sec)
-    else: 
+    else:
         integer_page(sec)
 
 # create PDF reader obj
@@ -161,7 +159,7 @@ for sec in outlines:
     # update start_page to be used for the next loop
     # start_page = until_page
     # once got the partial PDF, save it to destination
-    with open(os.path.join(CDL_TARG_CHILDREN_DIR, part_name), 'wb') as chp:
+    with open(join(CDL_TARG_CHILDREN_DIR, part_name), 'wb') as chp:
         writer.write(chp)
 
     # TODO: consider rjust or ljust the output
