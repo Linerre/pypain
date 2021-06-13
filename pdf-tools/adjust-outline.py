@@ -7,8 +7,7 @@ so the offset will be counted as 23 - 1 = 22.
 """
 
 import argparse
-import os.path
-import sys
+from os.path import abspath, join
 
 # parser accepts 2 command line args: offset path to the PDF
 parser = argparse.ArgumentParser(
@@ -32,6 +31,6 @@ offset = args.offset
 pdf = args.pdf
 
 if pdf is None:
-    with open(os.path.join(os.getcwd(), 'scheme.txt'), 'w', encoding='utf-8') as f:
+    with open(join(abspath('.'), 'scheme.txt'), 'w', encoding='utf-8') as f:
         f.write('')
     print('No PDF passed to the script. An empty scheme has been created.')
