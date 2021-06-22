@@ -90,50 +90,32 @@ with open(args.schema, 'r', encoding='utf-8') as part:
 # pre-process some elements in outlines:
 # e.g. : t-->toc; 1--> chapter_1; i-->index
 # also turn all page_nums into integers (they are strs from input file)
-def integer_page(sec_list):
+def prepare_schema(sec_list):
+    # Use dict as switch syntax
+    keys = {
+        'a': 'appendix',
+        'b': 'bibliography',
+        'g': 'glossary',
+        'i': 'index',
+        'n': 'notes',
+        'o': 'introduction',
+        'p': 'preface',
+        'r': 'references',
+        't': 'TOC',
+           }
+    if sec_list[0].isdigit():
+        sec_list[0] = args.part + separator + sec_list[0]
+    else:
+        sec_list[0] = keys[sec_list[0]]
     sec_list[1] = int(sec_list[1])
     sec_list[2] = int(sec_list[2])
-
-
-for sec in outlines:
-    # I miss the swtich/case statement in C so much:
-    if sec[0] == 't':
-        sec[0] = 'TOC'
-        integer_page(sec)
-    # in this particular case, sec[0] = 1,2,3, ...
-    # if this is the case, then use whatever cmd arg passed: chapter/section/part
-    elif sec[0].isdigit():
-        sec[0] = args.part + separator + sec[0]
-        integer_page(sec)
-    elif sec[0] == 'i':
-        sec[0] = 'index'
-        integer_page(sec)
-    elif sec[0] == 'r':
-        sec[0] = 'reference'
-        integer_page(sec)
-    elif sec[0] == 'n':
-        sec[0] = 'notes'
-        integer_page(sec)
-    elif sec[0] == 'b':
-        sec[0] = 'bibliography'
-        integer_page(sec)
-    elif sec[0] == 'p':
-        sec[0] = 'preface'
-        integer_page(sec)
-    elif sec[0] == 'o':
-        sec[0] = 'introduction'
-        integer_page(sec)
-    elif sec[0] == 'g':
-        sec[0] = 'glossary'
-        integer_page(sec)
-    else:
-        integer_page(sec)
 
 # create PDF reader obj
 reader = pdf.PdfFileReader(orgi_file)
 
 # start splitting PDF based on the args.schema
 for sec in outlines:
+    prepare_schema(sec)
     sec_name = sec[0]
     start_page = sec[1]
     until_page = sec[2]
@@ -150,10 +132,12 @@ for sec in outlines:
     # pages begin at 0 so below: page = real_page_num - 1
     # e.g: page = 58, then the real page num is 59
     # similary, pp.0 to x = (real) pp.1 to (x+1)
+    # NOTE: until_page should not be deducted because Python's range
+    # does not include the end!
     # until_page is the last page of the current chp/sec in reality
     # A starting page must be given
     # otherwise writer will always start at the first real page!
-    for page in range(start_page - 1, until_page - 1):
+    for page in range(start_page - 1, until_page):
         writer.addPage(reader.getPage(page))
 
     # update start_page to be used for the next loop
