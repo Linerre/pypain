@@ -42,13 +42,27 @@ parser.add_argument('filename', help='file name with the PDF extension; double-q
 parser.add_argument('barcode', help='barcode of the item to be splitted')
 
 # 3rd arg: schema, defaults to the schema-example.txt under the same dir as this script
-parser.add_argument('schema', nargs='?',
+parser.add_argument('schema', 
+                    nargs='?',
                     default=join(abspath('.'), 'schema-example.txt'),
                     help='a txt file which describes how the pdf will be splitted')
 
+# TODO:
+# add one new arg: offset
+parser.add_argument('offset', 
+                    nargs='?',
+                    default=0,
+                    help='Offset between the first printed page number and the page\
+                          number shown in the PDF viewer.')
+
 # 4th arg: spliited part name: chapter, part, section
-parser.add_argument('-p', '--part', default='chapter',
-                    choices=['chapter', 'section', 'part'])
+parser.add_argument('-p', '--part', 
+                    metavar='chapter|section|part', 
+                    nargs='?',
+                    const='chapter',
+                    default='chapter',
+                    choices=['chapter', 'section', 'part'],
+                    help='Set part name; defaults to chapter.')
 
 args = parser.parse_args()
 
@@ -57,6 +71,7 @@ args = parser.parse_args()
 separator = '_'
 orgi_file = join(CDL_ORIG_DIR, args.filename)
 targ_file = args.barcode + separator + args.filename
+offset = int(args.offset)
 
 
 # create target children dir for the title
@@ -82,13 +97,42 @@ CDL_TARG_CHILDREN_DIR = join(CDL_TARG_PARENT_DIR, targ_file[:-4])
 # it is convenient to name a chapter_X file later
 # such page ranges are stored in a txt file
 with open(args.schema, 'r', encoding='utf-8') as part:
-    outlines = [sec.rstrip('\n').split(',')
+    toc = [sec.rstrip('\n').split(',')
                 for sec in part.readlines()
                 if sec != '\n']
 
+# Raise Except early if the end page of the last part is missing!
+if len(toc[-1]) != 3:
+    print('End page of the last part is missing!')
+    raise IndexError('List index will be out of range due to missing last page.')
 
-# pre-process some elements in outlines:
-# e.g. : t-->toc; 1--> chapter_1; i-->index
+
+# pre-process elements in outlines:
+# 1st, use offset to get start, end page
+def get_start_end(outlines, offset):
+    for i in range(len(outlines)):
+        # for the first part, its star page should always be 1
+        if i == 0:
+            outlines[i].append(int(outlines[i+1][1]) - 1 + offset)
+
+        # then calibre start,end page for all, except the last part
+        if i > 0 and i < len(outlines) - 1:
+            # each element has two children elemnts
+            # the start page is the second, hence index 1
+            # for the ith part, its end page should be calibred such:
+            # the (i+1)th part's start page - 1, and then plus offset
+            # its start page should be added offset
+            outlines[i][1] = int(outlines[i][1]) + offset
+            outlines[i].append(int(outlines[i+1][1]) - 1 + offset) 
+
+        # start page of the last part needs to be added offset
+        if i == len(outlines) - 1:
+            outlines[i][1] = int(outlines[i][1]) + offset
+
+get_start_end(toc, offset)
+
+# 2nd, use case to replace keys with their values
+# e.g. : t-->toc; 1-->chapter_1; i-->index
 # also turn all page_nums into integers (they are strs from input file)
 def prepare_schema(sec_list):
     # Use dict as switch syntax
@@ -114,7 +158,7 @@ def prepare_schema(sec_list):
 reader = pdf.PdfFileReader(orgi_file)
 
 # start splitting PDF based on the args.schema
-for sec in outlines:
+for sec in toc:
     prepare_schema(sec)
     sec_name = sec[0]
     start_page = sec[1]
