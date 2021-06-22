@@ -8,9 +8,8 @@ The original PDF's filename.
 """
 
 # standard libs
-from os import name, environ
-from os.path import abspath, join, mkdir
-from pathlib import Path
+from os import environ, name, mkdir
+from os.path import abspath, exists, join
 import argparse
 
 # 3rd-party libs
@@ -52,7 +51,6 @@ parser.add_argument('-p', '--part', default='chapter',
                     choices=['chapter', 'section', 'part'])
 
 args = parser.parse_args()
-# let user decide which level shall be used, e.g.: chapter/section/part
 
 # all splitted chapters will be stored in a target dir named like
 # barcode_title under the CDL_TARG_PARENT_DIR
@@ -62,7 +60,7 @@ targ_file = args.barcode + separator + args.filename
 
 
 # create target children dir for the title
-if not Path(join(CDL_TARG_PARENT_DIR, targ_file[:-4])).exists():
+if not exists(join(CDL_TARG_PARENT_DIR, targ_file[:-4])):
     mkdir(join(CDL_TARG_PARENT_DIR, targ_file[:-4]))
 
 # to use CDL_TARG_CHILDREN_DIR as a string as well
@@ -136,15 +134,17 @@ reader = pdf.PdfFileReader(orgi_file)
 
 # start splitting PDF based on the args.schema
 for sec in outlines:
-    # writer has good memory and will remember previouly-added pages
-    # so each time writer needs overriding
-    writer = pdf.PdfFileWriter()
     sec_name = sec[0]
     start_page = sec[1]
     until_page = sec[2]
 
     # set chapter file name string, e.g.: barcode_title_chapter_1.pdf
     part_name = targ_file[:-4] + separator + sec_name + '.pdf'
+
+    # writer has good memory and will remember previouly-added pages
+    # so each time writer needs overriding
+    writer = pdf.PdfFileWriter()
+
 
     # with a brand new (empty if you will) writer, start adding
     # pages begin at 0 so below: page = real_page_num - 1
