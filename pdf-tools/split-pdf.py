@@ -103,9 +103,12 @@ with open(args.schema, 'r', encoding='utf-8') as part:
                 if sec != '\n']
 
 # Raise Except early if the end page of the last part is missing!
-if len(toc[-1]) != 3:
-    print('End page of the last part is missing!')
-    raise IndexError('List index will be out of range due to missing last page.')
+try:
+    if len(toc[-1]) != 3:
+        print('End page of the last part is missing!')
+        raise IndexError
+except IndexError:
+    raise SystemExit('List index will be out of range due to missing the last page number.')
 
 
 # pre-process elements in outlines:
