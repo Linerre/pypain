@@ -47,15 +47,14 @@ parser.add_argument('schema',
                     default=join(abspath('.'), 'schema-example.txt'),
                     help='a txt file which describes how the pdf will be splitted')
 
-# TODO:
-# add one new arg: offset
+# 4th arg: offset 
 parser.add_argument('offset', 
                     nargs='?',
                     default=0,
                     help='Offset between the first printed page number and the page\
                           number shown in the PDF viewer.')
 
-# 4th arg: spliited part name: chapter, part, section
+# 5th arg: spliited part name: chapter, part, section
 parser.add_argument('-p', '--part', 
                     metavar='chapter|section|part', 
                     nargs='?',
@@ -84,13 +83,15 @@ CDL_TARG_CHILDREN_DIR = join(CDL_TARG_PARENT_DIR, targ_file[:-4])
 # get the page ranges for each part, e.g:
 # pages begin at 0 according to
 # https://pythonhosted.org/PyPDF2/PdfFileReader.html#PyPDF2.PdfFileReader.getPage
+# ONLY needs two elements: part notation and start page
+# However, for the last part, the end page of the file is required
 # [
-#   [t,1,10]	---TOC(t)
-#   [1,10,20]	---chapter1(1)
-#   [2,21,27]	---chapter2(2)
+#   [t,1]	---TOC(t)
+#   [1,10]	---chapter1(1)
+#   [2,21]	---chapter2(2)
 #   ...
-#   [10,80,99]	---chapter10(10)
-#   [i,100,106] ---index(i)
+#   [10,80]	---chapter10(10)
+#   [i,100, 105] ---index(i)
 # ]
 
 # using 1,2,3,4 ... to represent chapters simply because
