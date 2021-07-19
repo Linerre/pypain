@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 '''
 This script is created solely for one task:
 to replace '@' mark with two '\n's in a *.txt
@@ -8,6 +8,7 @@ which holds the subtitles of a youtube video.
 from os import environ
 from os.path import join
 import argparse
+
 
 def args_processor():
     ROOT = join(environ['USERPROFILE'], 'YS')
@@ -28,6 +29,7 @@ def args_processor():
 
     return target_dir, subtitles_file
 
+
 def new_linebreaks():
     target_dir, file_path = args_processor()
 
@@ -38,8 +40,9 @@ def new_linebreaks():
         content = ' '.join(content)
         content = content.replace('@', '\n\n')
 
-    with open(join(target_dir, 'output.txt'), 'w', encoding='utf-8') as o:
-            o.write(content)
+    with open(join(target_dir, 'output.txt'), 'w', encoding='utf-8') as opt:
+            opt.write(content)
+
 
 if __name__ == '__main__':
     new_linebreaks()
