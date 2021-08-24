@@ -15,7 +15,7 @@ def args_processor():
     parser = argparse.ArgumentParser(description='Reformat the subtitles with new linebreaks')
 
     # 1st arg: subtitles dir
-    parser.add_argument('-c', '--catagory',
+    parser.add_argument('-d', '--directory',
                         help='The sub dir under ROOT, where subtitles.txt is stored')
 
     # 2nd arg: subtitles.txt
@@ -24,7 +24,7 @@ def args_processor():
 
     args = parser.parse_args()
 
-    target_dir = join(ROOT, args.catagory)
+    target_dir = join(ROOT, args.directory)
     subtitles_file = join(target_dir, args.subtitles) + '.txt'
 
     return target_dir, subtitles_file
