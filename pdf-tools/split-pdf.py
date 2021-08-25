@@ -143,6 +143,7 @@ def prepare_schema(sec_list):
     keys = {
         'a': 'appendix',
         'b': 'bibliography',
+        'e': 'epilogue',
         'g': 'glossary',
         'i': 'index',
         'n': 'notes',
