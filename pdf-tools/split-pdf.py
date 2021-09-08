@@ -141,6 +141,11 @@ get_start_end(toc, offset)
 def prepare_schema(sec_list):
     # Use dict as switch syntax
     keys = {
+        'A': 'Appendix-1',
+        'B': 'Appendix-2',
+        'C': 'Appendix-3',
+        'D': 'Appendix-4',
+        'E': 'Appendix-5',
         'a': 'appendix',
         'b': 'bibliography',
         'e': 'epilogue',
