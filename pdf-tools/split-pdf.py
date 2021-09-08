@@ -45,7 +45,7 @@ parser.add_argument('barcode', help='barcode of the item to be splitted')
 parser.add_argument('schema', 
                     nargs='?',
                     default=join(abspath('.'), 'schema-example.txt'),
-                    help='a txt file which describes how the pdf will be splitted')
+                    help='a txt file which describes how the pdf will be splitted; with extension')
 
 # 4th arg: offset 
 parser.add_argument('offset', 
@@ -115,15 +115,15 @@ except IndexError:
 # 1st, use offset to get start, end page
 def get_start_end(outlines, offset):
     for i in range(len(outlines)):
-        # for the first part, its star page should always be 1
+        # for the first part, its start page should always be 1
         if i == 0:
             outlines[i].append(int(outlines[i+1][1]) - 1 + offset)
 
-        # then calibre start,end page for all, except the last part
+        # then calibre start page, end page for all, except the last part
         if i > 0 and i < len(outlines) - 1:
             # each element has two children elemnts
-            # the start page is the second, hence index 1
-            # for the ith part, its end page should be calibred such:
+            # the start page is the second element in the list, hence index 1
+            # for the ith part, its end page should be calibred as such:
             # the (i+1)th part's start page - 1, and then plus offset
             # its start page should be added offset
             outlines[i][1] = int(outlines[i][1]) + offset
