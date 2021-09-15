@@ -47,14 +47,8 @@ parser.add_argument('schema',
                     default=join(abspath('.'), 'schema-example.txt'),
                     help='a txt file which describes how the pdf will be splitted; with extension')
 
-# 4th arg: offset 
-parser.add_argument('offset', 
-                    nargs='?',
-                    default=0,
-                    help='Offset between the first printed page number and the page\
-                          number shown in the PDF viewer.')
 
-# 5th arg: spliited part name: chapter, part, section
+# 4th arg: spliited part name: chapter, part, section
 parser.add_argument('-p', '--part', 
                     metavar='chapter|section|part', 
                     nargs='?',
@@ -70,7 +64,7 @@ args = parser.parse_args()
 separator = '_'
 orgi_file = join(CDL_ORIG_DIR, args.filename)
 targ_file = args.barcode + separator + args.filename
-offset = int(args.offset)
+# = int(args.)
 
 
 # create target children dir for the title
@@ -112,28 +106,28 @@ except IndexError:
 
 
 # pre-process elements in outlines:
-# 1st, use offset to get start, end page
-def get_start_end(outlines, offset):
+# 1st, use  to get start, end page
+def get_start_end(outlines):
     for i in range(len(outlines)):
         # for the first part, its start page should always be 1
         if i == 0:
-            outlines[i].append(int(outlines[i+1][1]) - 1 + offset)
+            outlines[i].append(int(outlines[i+1][1]) - 1)
 
         # then calibre start page, end page for all, except the last part
         if i > 0 and i < len(outlines) - 1:
             # each element has two children elemnts
             # the start page is the second element in the list, hence index 1
             # for the ith part, its end page should be calibred as such:
-            # the (i+1)th part's start page - 1, and then plus offset
-            # its start page should be added offset
-            outlines[i][1] = int(outlines[i][1]) + offset
-            outlines[i].append(int(outlines[i+1][1]) - 1 + offset) 
+            # the (i+1)th part's start page - 1, and then plus 
+            # its start page should be added 
+            outlines[i][1] = int(outlines[i][1])  
+            outlines[i].append(int(outlines[i+1][1]) - 1) 
 
-        # start page of the last part needs to be added offset
+        # start page of the last part needs to be added 
         if i == len(outlines) - 1:
-            outlines[i][1] = int(outlines[i][1]) + offset
+            outlines[i][1] = int(outlines[i][1])
 
-get_start_end(toc, offset)
+get_start_end(toc)
 
 # 2nd, use case to replace keys with their values
 # e.g. : t-->toc; 1-->chapter_1; i-->index
