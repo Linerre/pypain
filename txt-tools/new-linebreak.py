@@ -40,7 +40,7 @@ def new_linebreaks():
         content = ' '.join(content)
         content = content.replace('@', '\n\n')
 
-    with open(join(target_dir, 'output.txt'), 'w', encoding='utf-8') as opt:
+    with open(join(target_dir, 'en.txt'), 'w', encoding='utf-8') as opt:
             opt.write(content)
 
 
