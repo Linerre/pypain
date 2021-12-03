@@ -28,12 +28,12 @@ def args_processor():
     # 2nd arg: en.txt
     parser.add_argument('-s', '--source',
                         default='en',
-                        help='The name of subtitles file, without extention')
+                        help='The name of subtitles file, without extention. Default: en')
 
     # 3rd arg: cn.txt
     parser.add_argument('-t', '--target',
                         default='zh',
-                        help='The name of target language file, without extention')
+                        help='The name of target language file, without extention. Default: zh')
     args = parser.parse_args()
 
     working_dir = join(ROOT, args.directory)
