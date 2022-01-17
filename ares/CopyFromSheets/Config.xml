@@ -1,0 +1,22 @@
+<Configuration>
+	<Name>Copy From Sheets</Name>
+	<Author>Leon Lin</Author>
+	<Version>1.0</Version>
+	<Active>true</Active>
+	<Type>Addon</Type>
+	<Description>Copy item information from a google spreadsheet</Description>
+
+	<Forms>
+		<Form>FormItem</Form>
+	</Forms>	
+
+	<Settings>
+		<Setting name='AutoFilling' value='true' type='boolean'>
+			<Description>Defines whether the search should be automatically performed when the form opens.</Description>
+		</Setting>
+	</Settings>
+
+	<Files>
+		<File>CopyFromSheets.lua</File>
+	</Files>
+</Configuration>
