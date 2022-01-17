@@ -1,5 +1,5 @@
 -- Author: Leon Lin zl37@nyu.edu
--- Last Modified: 2021-10-26 Tue
+-- Last Modified: 2022-01-16 Mon
 
 --[[ Copy content from Google Sheet consective cells 
 	and paste it to ARES form on a single operation.
@@ -107,7 +107,10 @@ function Posthook()
 	
 	for _, item in pairs(checklist) do
 		if ((GetFieldValue("Item", item) == nil) or (GetFieldValue("Item", item) == null) or (GetFieldValue("Item", item) == "")) then
-			SetFieldValue("Item", item, "n/a")
+			SetFieldValue("Item", item, "N/A")
 		end
 	end
 end
+
+-- TODO
+-- Add function to also handle ebook url as well as textbook? field
