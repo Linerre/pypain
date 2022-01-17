@@ -45,4 +45,6 @@ def new_linebreaks():
 
 
 if __name__ == '__main__':
+    print("Start breaking lines ...")
     new_linebreaks()
+    print("Done!")

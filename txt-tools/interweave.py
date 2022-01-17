@@ -64,4 +64,6 @@ def interweave():
 
 
 if __name__ == '__main__':
+    print("Start making bilingual scripts ...")
     interweave()
+    print("DONE!")
