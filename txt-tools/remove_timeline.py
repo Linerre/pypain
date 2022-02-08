@@ -31,7 +31,7 @@ def args_processor():
     args = parser.parse_args()
 
     # I only use this script on Windows.
-    # For unix-like systems, it is 'USER'
+    # For unix-like systems, it is 'HOME'
     ROOT_DIR = join(environ['USERPROFILE'], 'YS')
 
     if args.directory:
