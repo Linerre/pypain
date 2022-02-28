@@ -19,7 +19,7 @@ import argparse
 
 def args_processor():
     ROOT = join(environ['USERPROFILE'], 'YS')
-    parser = argparse.ArgumentParser(description='Reformat the subtitles with new linebreaks')
+    parser = argparse.ArgumentParser(description='Make bilingual subtitles')
 
     # 1st arg: subtitles dir
     parser.add_argument('-d', '--directory',
@@ -49,21 +49,32 @@ def interweave():
     # O(n)?
     with open(source_file_path, 'r', encoding='utf-8') as s:
         source_raw = s.readlines()
-        source_content = [line.rstrip(' \n') for line in source_raw if line != '\n']
+        source_content = [line.rstrip(' \r\n') for line in source_raw if line != '\n' or line !='\r\n']
 
     # O(n)?
     with open(target_file_path, 'r', encoding='utf-8') as t:
         target_raw = t.readlines()
-        target_content = [line.rstrip(' \n') for line in target_raw if line != '\n']
+        target_content = [line.rstrip(' \r\n') for line in target_raw if line != '\n' or line != '\r\n']
 
+    src_ln_num = len(source_content)
+    tge_ln_num = len(target_content)
+
+    if (src_ln_num < tge_ln_num):
+        print('Warning: The src and tge file have different numbers of lines!')
+        print(f'Source and target files have {src_ln_num} and {tge_ln_num} lines separately.')
+        # return src_ln_num if src_ln_num > tge_ln_num else tge_ln_num
+
+
+    print("Start making bilingual scripts ...")
     # O(n)?
     bi_sub = '\n'.join([source_content[i] + '\n' + target_content[i] for i in range(len(source_content))])
+
 
     with open(join(working_dir, 'output.txt'), 'w', encoding='utf-8') as opt:
             opt.write(bi_sub)
 
+    print("DONE!")
+
 
 if __name__ == '__main__':
-    print("Start making bilingual scripts ...")
     interweave()
-    print("DONE!")
