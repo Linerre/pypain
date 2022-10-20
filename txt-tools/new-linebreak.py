@@ -13,7 +13,7 @@ import argparse
 
 def args_processor():
     if platform == "win32":
-        ROOT = join(environ['USERPROFILE'], 'YS')
+        ROOT = join(environ['USERPROFILE'], 'Desktop', 'YS')
     else:
         ROOT = join(environ['HOME'], 'Desktop', 'YS')
 
