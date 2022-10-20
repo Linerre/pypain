@@ -7,11 +7,16 @@ which holds the subtitles of a youtube video.
 
 from os import environ
 from os.path import join
+from sys import platform
 import argparse
 
 
 def args_processor():
-    ROOT = join(environ['USERPROFILE'], 'YS')
+    if platform == "win32":
+        ROOT = join(environ['USERPROFILE'], 'YS')
+    else:
+        ROOT = join(environ['HOME'], 'Desktop', 'YS')
+
     parser = argparse.ArgumentParser(description='Reformat the subtitles with new linebreaks')
 
     # 1st arg: subtitles dir
