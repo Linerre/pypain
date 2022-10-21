@@ -15,10 +15,15 @@ EOF
 
 from os import environ
 from os.path import join
+from sys import platform
 import argparse
 
 def args_processor():
-    ROOT = join(environ['USERPROFILE'], 'YS')
+    if platform == "win32":
+        ROOT = join(environ['USERPROFILE'], 'Desktop', 'YS')
+    else:
+        ROOT = join(environ['HOME'], 'Desktop', 'YS')
+
     parser = argparse.ArgumentParser(description='Make bilingual subtitles')
 
     # 1st arg: subtitles dir
