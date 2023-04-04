@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # set -x
 
+# -------------------- SET UP ---------------------
 read -p "Full Year (4-digit)? > " year
 if [[ ${#year} -eq 0 ]]; then
     # Default to this year
@@ -18,6 +19,7 @@ dw="$HOME/Downloads"
 dc="$HOME/Documents"
 back=$(pwd)
 
+# -------------------- LOGIC ---------------------
 move_ft() {
     cd $dw
     cd "Telegram Desktop"
@@ -110,5 +112,5 @@ move_ft() {
 move_ft
 
 # ----------------------- CLEAN --------------------src--
-unset dw dc year back
+unset dw dc category year back
 unset -f move_ft
