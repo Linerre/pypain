@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+# set -x
+
+dw="$HOME/Downloads"
+dc="$HOME/Documents"
+y=2023
+back=$(pwd)
+
+move_un() {
+
+}
+move_ft() {
+    cd $dw
+    cd "Telegram Desktop"
+    echo "Moved into: " $(pwd)
+    # File name: `Financial Times DD-MM-YY.pdf'
+    local ft_world=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
+    local ft_uk=$( ls | grep -e "^Financial" | grep -w -e "UK" | awk '{print $4}')
+    for ft in $ft_world; do
+        local d=${ft:0:2}
+        local m=${ft:3:2}
+        local des=${dc}/FT/${y}/${m}
+        # Create the month dir as needed
+        [[ -d $des ]] || mkdir $des
+
+        case $m in
+            "01" )
+                printf "Moving January issue %s\n" $ft
+                # TODO: let user input the year
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/${d}-in.pdf"
+                ;;
+            "02" )
+                printf "Moving Feburary issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "03" )
+                printf "Moving March issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "04" )
+                printf "Moving April issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "05" )
+                printf "Moving May issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "05" )
+                printf "Moving June issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "07" )
+                printf "Moving July issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "08" )
+                printf "Moving August issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "09" )
+                printf "Moving Semptember issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "10" )
+                printf "Moving October issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "11" )
+                printf "Moving November issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            "12" )
+                printf "Moving December issue %s\n" $ft
+                mv "Financial Times ${ft}" "${dc}/FT/${y}/${m}/{d}-in.pdf"
+                ;;
+            * )
+                echo "Found strange month" $m
+        esac
+    done
+    cd $back
+    echo "Return back to " $back
+}
+# ls | grep -e "^Financial" | grep -wv -e "UK"
+
+# ----------------------- CALL FN ----------------------
+move_ft
+
+unset dw dc y back
+unset -f move_ft
