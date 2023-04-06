@@ -12,8 +12,61 @@ echo "
      [5] Economist
      [6] Foreign Affairs
 "
+read -p "Type number: " ntype
 
-read -p "Type number: " news_type
+if [[ ${ntype} -gt 6 || ${ntype} -lt 0 ]]; then
+    echo "Type must be a number between 1 and 6. Given: ${ntype}" >&2
+    exit 1
+fi
 
-# TODO: validate user input in the range of 1-6
-echo "To archive ${news_type}"
+
+download="${HOME}/Downloads"
+document="${HOME}/Documents"
+
+cd $download/Telegram\ Desktop
+echo "Moved into" $(pwd)
+
+case $ntype in
+    1 )
+        echo "To archive [${ntype}] Financial Times International ... "
+        query=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
+        for f in $query; do
+            echo $f
+        done
+        ;;
+    2 )
+        query=$( ls | grep -e "^Financial" | grep -w -e "UK" | awk '{print $4}' )
+        for f in $query; do
+            echo $f
+        done
+        ;;
+    3 )
+        query=$( ls | grep -e "Wall Street" | awk '{print $5}' )
+        for f in $query; do
+            echo $f
+        done
+        ;;
+    4 )
+        query=$( ls | grep -i -e "Yorker" | awk '{print $1}' )
+        for f in $query; do
+            echo $f
+        done
+        ;;
+    5 )
+        query=$( ls | grep -E "Economist|TE" | awk '{print $1}' )
+        for f in $query; do
+            echo $f
+        done
+        ;;
+    6 )
+        query=$( ls | grep -i -e "Affairs" | awk '{print $1}' )
+        for f in $query; do
+            echo $f
+        done
+        ;;
+    * ) echo "Unknown Category " ; exit -1 ;;
+esac
+
+
+# ----------------------- CLEAN ----------------------
+unset ntype download document
