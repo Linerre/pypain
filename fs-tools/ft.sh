@@ -108,9 +108,9 @@ move_ft() {
     echo "Return back to " $back
 }
 
-# ----------------------- CALL FN ------------------src--
+# ----------------------- CALL FN --------------------
 move_ft
 
-# ----------------------- CLEAN --------------------src--
+# ----------------------- CLEAN ----------------------
 unset dw dc category year back
 unset -f move_ft
