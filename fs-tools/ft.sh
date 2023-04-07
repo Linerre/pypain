@@ -26,17 +26,17 @@ move_ft() {
     echo "Moved into: " $(pwd)
     # File name: `Financial Times DD-MM-YY.pdf'
     case $category in
-        "w" )
+        "w")
             local fts=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
             local pfx="Financial Times"
             local sfx="in"
             ;;
-        "u" )
+        "u")
             local fts=$( ls | grep -e "^Financial" | grep -w -e "UK" | awk '{print $4}')
             local pfx="Financial Times UK"
             local sfx="uk"
             ;;
-        *   )
+        *)
             echo "Expect category of w/u, given" $category
             return -10
     esac
