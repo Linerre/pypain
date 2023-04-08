@@ -19,58 +19,81 @@ if [[ ${ntype} -gt 6 || ${ntype} -lt 0 ]]; then
     exit 1
 fi
 
-download="${HOME}/Downloads"
-document="${HOME}/Documents"
+downloads="${HOME}/Downloads"
+documents="${HOME}/Documents"
 
-cd $download/Telegram\ Desktop
+cd ${downloads}/Telegram\ Desktop
 echo "Moved into" $(pwd)
 
 case $ntype in
     1)
-        echo "To archive [${ntype}] Financial Times International ... "
-        query=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
-        for f in $query; do
-            echo $f
-        done
+        category="Finacial Times International"
+        echo "To archive [${ntype}] ${category} ... "
+        # query=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
+        query=$( ls | grep -E "^Financial|^FT" | grep -wv -e "UK" )
+        dest="${documents}/FT"
         ;;
     2)
-        echo "To archive [${ntype}] Financial Times UK ... "
+        category="Finacial Times UK"
+        echo "To archive [${ntype}] ${category} ... "
         query=$( ls | grep -e "^Financial" | grep -w -e "UK" | awk '{print $4}' )
-        for f in $query; do
-            echo $f
-        done
+        dest="${documents}/FT"
         ;;
     3)
-        echo "To archive [${ntype}] Wall Street Journal ... "
+        category="The Wall Street Journal"
+        echo "To archive [${ntype}] ${category} ... "
         query=$( ls | grep -e "Wall Street" | awk '{print $5}' )
-        for f in $query; do
-            echo $f
-        done
+        dest="${documents}/WSJ"
         ;;
     4)
-        echo "To archive [${ntype}] The New Yorker ... "
+        category="The New Yorker"
+        echo "To archive [${ntype}] ${category} ... "
         query=$( ls | grep -i -e "Yorker" | awk '{print $1}' )
-        for f in $query; do
-            echo $f
-        done
+        dest="${documents}/TNY"
         ;;
     5)
-        echo "To archive [${ntype}] The Economist ... "
+        category="The Economist"
+        echo "To archive [${ntype}] ${category} ... "
         query=$( ls | grep -E "Economist|TE" | awk '{print $1}' )
-        for f in $query; do
-            echo $f
-        done
+        dest="${documents}/TE"
         ;;
     6)
-        echo "To archive [${ntype}] Foreign Affaris ... "
+        category="Foreign Affaris"
+        echo "To archive [${ntype}] ${category} ... "
         query=$( ls | grep -i -e "Affairs" | awk '{print $1}' )
-        for f in $query; do
-            echo $f
-        done
+        dest="${documents}/FA"
         ;;
     *) echo "Unknown Category " ; exit -1 ;;
 esac
 
+move_news() {
+    for f in $query; do
+        local d=${f:0:2}
+        local m=${f:3:2}
+        local t=${dest}/${m}/${d}
+
+        # Check month and day formats respectively
+        case $m in
+            [0-9][0-9]) ;;
+            *) echo "Month format should be [MM] but found invalid month: [${m}]" >&2
+               echo "Invalid file: ${category} ${f}" >&2
+               echo "Failed to archive due to the above error" >&2
+               exit -11
+        esac
+        case $d in
+            [0-9][0-9]) ;;
+            *) echo "Day format shoould be [DD] but Found invalid day: [${d}]" >&2
+               echo "Invalid file: ${category} ${f}" >&2
+               echo "Failed to archive due to the above error" >&2
+               exit -11
+        esac
+
+        # [[ -d "${t}"  ]] || mkdir "${t}"
+        echo "Archiving ${category}-${m}-${d} ${f} to ${dest}/${m}/${d}"
+    done
+}
+
+move_news
 
 # ----------------------- CLEAN ----------------------
-unset ntype download document
+unset ntype download document query category dest
