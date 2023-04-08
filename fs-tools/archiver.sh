@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Move newspaper or magazine files from SOURCE to DESTINATION
+# Archive newspaper or magazine files
 #
 
 echo "
@@ -66,13 +66,12 @@ case $ntype in
     *) echo "Unknown Category " ; exit -1 ;;
 esac
 
-move_news() {
+format_checker() {
     for f in $query; do
         local d=${f:0:2}
         local m=${f:3:2}
-        local t=${dest}/${m}/${d}
+        local t=${dest}/${m}
 
-        # Check month and day formats respectively
         case $m in
             [0-9][0-9]) ;;
             *) echo "Month format should be [MM] but found invalid month: [${m}]" >&2
@@ -88,9 +87,17 @@ move_news() {
                exit -11
         esac
 
-        # [[ -d "${t}"  ]] || mkdir "${t}"
-        echo "Archiving ${category}-${m}-${d} ${f} to ${dest}/${m}/${d}"
+        if [[ ! -d "${t}"  ]]; then
+            echo "${t} does not exist yet, creating it ..."
+            # mkdir -p "${t}"
+        fi
     done
+}
+
+move_news() {
+    echo "Checking month and day formats ..."
+    format_checker
+    echo "Archiving ${category}-${m}-${d} ${f} to ${dest}/${m}/${d}"
 }
 
 move_news
