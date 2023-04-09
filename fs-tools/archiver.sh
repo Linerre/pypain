@@ -75,10 +75,10 @@ esac
 filename_checker() {
     for f in $query; do
         local len=${#f}
-        if [[ $len -lt 8 ]] ; then
+        if [[ "$len" -lt 8 ]] ; then
             echo "File name length incorrect! Expect [DD_MM_YY??] or [DD.YY.YY??] but found [$f]"
             exit -10
-        elif [[ $len -eq 14 ]] ; then
+        elif [[ "$len" -eq 14 ]] ; then
             # DD_MM_YYYY.pdf
             local y=${f:6:4}
             case $y in
@@ -87,7 +87,7 @@ filename_checker() {
                     echo "Found $f does not belong to year $year, skipping it ..."
                     continue
             esac
-        elif [[ $len -eq 12 ]] ; then
+        elif [[ "$len" -eq 12 ]] ; then
             # DD_MM_YY.pdf
             local y=${f:6:2}
             case $y in
@@ -116,7 +116,7 @@ filename_checker() {
                exit -11
         esac
 
-        if [[ ! -d "${t}"  ]]; then
+        if [[ ! -d "${t}" ]] ; then
             echo "${t} does not exist yet, creating it ..."
             mkdir -p "${t}"
         fi
