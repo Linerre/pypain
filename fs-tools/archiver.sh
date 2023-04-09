@@ -3,14 +3,14 @@
 # Archive newspaper or magazine files
 #
 
-echo "
-     Choose news type to be archived:
-     [1] Financial Times International
-     [2] Financial Times UK
-     [3] Wall Street Journal
-     [4] New Yorker
-     [5] Economist
-     [6] Foreign Affairs
+echo \
+"Choose news type to be archived:
+[1] Financial Times International
+[2] Financial Times UK
+[3] Wall Street Journal
+[4] New Yorker
+[5] Economist
+[6] Foreign Affairs
 "
 read -p "Type number: " ntype
 
