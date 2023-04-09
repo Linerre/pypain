@@ -19,6 +19,11 @@ if [[ ${ntype} -gt 6 || ${ntype} -lt 0 ]]; then
     exit 1
 fi
 
+read -p "Enter 4-digit year [default 2023]: " year
+if [[ ${#year} -eq 0 ]] ; then
+    year=2023;
+fi
+
 downloads="${HOME}/Downloads"
 documents="${HOME}/Documents"
 
@@ -89,18 +94,18 @@ format_checker() {
 
         if [[ ! -d "${t}"  ]]; then
             echo "${t} does not exist yet, creating it ..."
-            # mkdir -p "${t}"
+            mkdir -p "${t}"
         fi
     done
 }
 
 move_news() {
     echo "Checking month and day formats ..."
-    format_checker
+    filename_checker
     echo "Archiving ${category}-${m}-${d} ${f} to ${dest}/${m}/${d}"
 }
 
 move_news
 
 # ----------------------- CLEAN ----------------------
-unset ntype download document query category dest
+unset ntype year download document query category dest
