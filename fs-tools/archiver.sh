@@ -71,22 +71,46 @@ case $ntype in
     *) echo "Unknown Category " ; exit -1 ;;
 esac
 
-format_checker() {
+# Check the date format in the filename and the year
+filename_checker() {
     for f in $query; do
+        local len=${#f}
+        if [[ $len -lt 8 ]] ; then
+            echo "File name length incorrect! Expect [DD_MM_YY??] or [DD.YY.YY??] but found [$f]"
+            exit -10
+        elif [[ $len -eq 14 ]] ; then
+            # DD_MM_YYYY.pdf
+            local y=${f:6:4}
+            case $y in
+                ${year}) ;;
+                *)
+                    echo "Found $f does not belong to year $year, skipping it ..."
+                    continue
+            esac
+        elif [[ $len -eq 12 ]] ; then
+            # DD_MM_YY.pdf
+            local y=${f:6:2}
+            case $y in
+                ${year:2}) y=${year} ;;
+                *)
+                    echo "Found $f does not belong to year $year, skipping it ..."
+                    continue
+            esac
+        fi
         local d=${f:0:2}
         local m=${f:3:2}
-        local t=${dest}/${m}
+        local t=${dest}/${y}/${m}
 
-        case $m in
+        case $d in
             [0-9][0-9]) ;;
-            *) echo "Month format should be [MM] but found invalid month: [${m}]" >&2
+            *) echo "Day format shoould be [DD] but Found invalid day: [${d}]" >&2
                echo "Invalid file: ${category} ${f}" >&2
                echo "Failed to archive due to the above error" >&2
                exit -11
         esac
-        case $d in
+        case $m in
             [0-9][0-9]) ;;
-            *) echo "Day format shoould be [DD] but Found invalid day: [${d}]" >&2
+            *) echo "Month format should be [MM] but found invalid month: [${m}]" >&2
                echo "Invalid file: ${category} ${f}" >&2
                echo "Failed to archive due to the above error" >&2
                exit -11
