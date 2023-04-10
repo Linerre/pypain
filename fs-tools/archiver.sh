@@ -93,33 +93,39 @@ filename_checker() {
             case $y in
                 ${year:2}) y=${year} ;;
                 *)
-                    echo "Found $f does not belong to year $year, skipping it ..."
+                    echo "$f does not belong to year $year, skipping it ..."
                     continue
             esac
         fi
-        local d=${f:0:2}
-        local m=${f:3:2}
-        local t=${dest}/${y}/${m}
 
+        local d=${f:0:2}
         case $d in
             [0-9][0-9]) ;;
-            *) echo "Day format shoould be [DD] but Found invalid day: [${d}]" >&2
-               echo "Invalid file: ${category} ${f}" >&2
-               echo "Failed to archive due to the above error" >&2
-               exit -11
-        esac
-        case $m in
-            [0-9][0-9]) ;;
-            *) echo "Month format should be [MM] but found invalid month: [${m}]" >&2
-               echo "Invalid file: ${category} ${f}" >&2
+            *) echo "========================================================"
+               echo "Day format shoould be [DD] but Found invalid day: [${d}]" >&2
+               echo "Invalid file: >> ${category} ${f} <<" >&2
+               echo "========================================================"
                echo "Failed to archive due to the above error" >&2
                exit -11
         esac
 
+        local m=${f:3:2}
+        case $m in
+            [0-9][0-9]) ;;
+            *) echo "==========================================================="
+               echo "Month format should be [MM] but found invalid month: [${m}]" >&2
+               echo "Invalid file: >> ${category} ${f} <<" >&2
+               echo "==========================================================="
+               echo "Failed to archive due to the above error" >&2
+               exit -11
+        esac
+
+        local t=${dest}/${y}/${m}
         if [[ ! -d "${t}" ]] ; then
             echo "${t} does not exist yet, creating it ..."
             mkdir -p "${t}"
         fi
+
     done
 }
 
