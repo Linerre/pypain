@@ -32,14 +32,14 @@ echo "Moved into" $(pwd)
 
 case $ntype in
     1)
-        category="Finacial Times International"
+        category="Financial Times"
         echo "To archive [${ntype}] ${category} ... "
         # query=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
         query=$( ls | grep -E "^Financial|^FT" | grep -wv -e "UK" )
         dest="${documents}/FT"
         ;;
     2)
-        category="Finacial Times UK"
+        category="Financial Times UK"
         echo "To archive [${ntype}] ${category} ... "
         query=$( ls | grep -e "^Financial" | grep -w -e "UK" | awk '{print $4}' )
         dest="${documents}/FT"
@@ -84,7 +84,7 @@ filename_checker() {
             case $y in
                 ${year}) ;;
                 *)
-                    echo "Found $f does not belong to year $year, skipping it ..."
+                    echo "$f does not belong to year $year, skipping it ..."
                     continue
             esac
         elif [[ "$len" -eq 12 ]] ; then
