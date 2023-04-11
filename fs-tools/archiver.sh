@@ -2,6 +2,10 @@
 #
 # Archive newspaper or magazine files
 #
+# Filname (case insensitive) should follow this pattern:
+# "<newspaper> <DATE>.pdf", where <DATE> could be one of the folloiwng
+# 1. <DD_MM_YY??>
+# 2. <DD.MM.YY??>
 
 echo \
 "Choose news type to be archived:
@@ -30,54 +34,7 @@ documents="${HOME}/Documents"
 cd ${downloads}/Telegram\ Desktop
 echo "Moved into" $(pwd)
 
-case $ntype in
-    1)
-        category="Financial Times"
-        echo "To archive [${ntype}] ${category} ... "
-        query=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
-        suffix="_eu"
-        dest="${documents}/FT"
-        ;;
-    2)
-        category="Financial Times UK"
-        echo "To archive [${ntype}] ${category} ... "
-        query=$( ls | grep -e "^Financial" | grep -w -e "UK" | awk '{print $4}' )
-        suffix="_uk"
-        dest="${documents}/FT"
-        ;;
-    3)
-        category="The Wall Street Journal"
-        echo "To archive [${ntype}] ${category} ... "
-        query=$( ls | grep -e "Wall Street" | awk '{print $5}' )
-        suffix=
-        dest="${documents}/WSJ"
-        ;;
-    4)
-        category="The New Yorker"
-        echo "To archive [${ntype}] ${category} ... "
-        query=$( ls | grep -i -e "Yorker" | awk '{print $1}' )
-        suffix=
-        dest="${documents}/TNY"
-        ;;
-    5)
-        category="The Economist"
-        echo "To archive [${ntype}] ${category} ... "
-        query=$( ls | grep -E "Economist|TE" | awk '{print $1}' )
-        suffix=
-        dest="${documents}/TE"
-        ;;
-    6)
-        category="Foreign Affaris"
-        echo "To archive [${ntype}] ${category} ... "
-        query=$( ls | grep -i -e "Affairs" | awk '{print $1}' )
-        suffix=
-        dest="${documents}/FA"
-        ;;
-    *) echo "Unknown Category " ; exit -1 ;;
-esac
-
-# Check the date format in the filename and the year
-move_news() {
+_move_news() {
     for f in $query ; do
         local len=${#f}
         if [[ "$len" -lt 8 ]] ; then
@@ -136,7 +93,54 @@ move_news() {
     done
 }
 
-move_news
+case $ntype in
+    1)
+        category="Financial Times"
+        echo "To archive [${ntype}] ${category} ... "
+        query=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
+        suffix="_eu"
+        dest="${documents}/FT"
+        _move_news
+        ;;
+    2)
+        category="Financial Times UK"
+        echo "To archive [${ntype}] ${category} ... "
+        query=$( ls | grep -e "^Financial" | grep -w -e "UK" | awk '{print $4}' )
+        suffix="_uk"
+        dest="${documents}/FT"
+        _move_news
+        ;;
+    3)
+        category="The Wall Street Journal"
+        echo "To archive [${ntype}] ${category} ... "
+        query=$( ls | grep -e "Wall Street" | awk '{print $5}' )
+        suffix=
+        dest="${documents}/WSJ"
+        ;;
+    4)
+        category="The New Yorker"
+        echo "To archive [${ntype}] ${category} ... "
+        query=$( ls | grep -i -e "Yorker" | awk '{print $4}' )
+        suffix=
+        dest="${documents}/TNY"
+        _move_news
+        ;;
+    5)
+        category="The Economist"
+        echo "To archive [${ntype}] ${category} ... "
+        query=$( ls | grep -E "Economist|TE" | awk '{print $1}' )
+        suffix=
+        dest="${documents}/TE"
+        ;;
+    6)
+        category="Foreign Affaris"
+        echo "To archive [${ntype}] ${category} ... "
+        query=$( ls | grep -i -e "Affairs" | awk '{print $1}' )
+        suffix=
+        dest="${documents}/FA"
+        ;;
+    *) echo "Unknown Category " ; exit -1 ;;
+esac
 
 # ----------------------- CLEAN ----------------------
 unset ntype year download document query category dest suffix
