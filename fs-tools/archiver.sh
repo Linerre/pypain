@@ -56,7 +56,11 @@ _move_news() {
     for f in $query ; do
         local len=${#f}
         if [[ "$len" -lt 8 ]] ; then
-            echo "File name length incorrect! Expect [DD_MM_YY??] or [DD.YY.YY??] but found [$f]"
+            echo "========================================================"
+            echo "File name length incorrect!" >&2
+            echo "Expect: [DD_MM_YY??] or [DD.YY.YY??]" >&2
+            echo "Found: >>> ${f} <<<"
+            echo "========================================================"
             exit -10
         elif [[ "$len" -eq 14 ]] ; then
             # DD_MM_YYYY.pdf
@@ -83,7 +87,7 @@ _move_news() {
             [0-9][0-9]) ;;
             *) echo "========================================================"
                echo "Day format shoould be [DD] but Found invalid day: [${d}]" >&2
-               echo "Invalid file: >> ${category} ${f} <<" >&2
+               echo "Invalid file: >>> ${category} ${f} <<<" >&2
                echo "========================================================"
                echo "Failed to archive due to the above error" >&2
                exit -11
@@ -94,7 +98,7 @@ _move_news() {
             [0-9][0-9]) ;;
             *) echo "==========================================================="
                echo "Month format should be [MM] but found invalid month: [${m}]" >&2
-               echo "Invalid file: >> ${category} ${f} <<" >&2
+               echo "Invalid file: >>> ${category} ${f} <<<" >&2
                echo "==========================================================="
                echo "Failed to archive due to the above error" >&2
                exit -11
@@ -137,6 +141,7 @@ case $ntype in
         query=$( ls | grep -e "Wall Street" | awk '{print $5}' )
         suffix=
         dest="${documents}/WSJ"
+	      _move_news
         ;;
     4)
         _pre_check
