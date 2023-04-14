@@ -115,6 +115,46 @@ _move_news() {
     done
 }
 
+# TE-YYYY-MM-DD-TYP.suffix
+_move_te() {
+    for f in $query ; do
+        case $f in
+            The*|Economist )
+                echo "Expect 'TE-<DATE>.<suffix>' but found '<${f}>', skipping it ..."
+                continue
+                ;;
+            * )
+        esac
+
+        if [[ ${#f} -lt 20 ]] ; then
+            echo "==========================================================="
+            echo "File name length incorrect!" >&2
+            echo "Expect: [DD_MM_YY??] or [DD.YY.YY??]" >&2
+            echo "Found: >>> ${f} <<<" >&2
+            echo "==========================================================="
+            exit -10
+        fi
+
+        local y=${f:3:4}
+        case $y in
+            ${year}) ;;
+            *) echo "$f does not belong to ${year}, skipping it ..."
+               continue
+        esac
+        local m=${f:8:2}
+        local d=${f:11:2}
+        local s=${f:18}
+        local t=${dest}/${y}/${m}/${d}
+        if [[ ! -d "${t}" ]] ; then
+            echo "${t} does not exist yet, creating it ..."
+            mkdir -p "${t}"
+        fi
+
+        echo "Moving ${f} to ${t} as ${m}_${d}.${s}"
+        mv "${f}" "${t}/${m}_${d}.${s}"
+    done
+}
+
 case $ntype in
     1)
         _pre_check
@@ -159,6 +199,7 @@ case $ntype in
         query=$( ls | grep -E "Economist|TE" | awk '{print $1}' )
         suffix=
         dest="${documents}/TE"
+        _move_te
         ;;
     6)
         _pre_check
