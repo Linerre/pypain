@@ -2,7 +2,7 @@
 #
 # Archive newspaper or magazine files
 #
-# Filname (case insensitive) should follow this pattern:
+# Newspaper filenames (case insensitive) should follow this pattern:
 # "<newspaper> <DATE>.pdf", where <DATE> could be one of the folloiwng
 # 1. <DD_MM_YY??>
 # 2. <DD.MM.YY??>
@@ -45,9 +45,9 @@ _pre_check() {
     esac
     read -p "Archive these file(s)? [y/n] " agree
     case $agree in
-        y ) ;;
-        n ) echo "Exit" ; exit -12 ;;
-        * ) echo "Must type in y or n in lowercase; you typeed ${agree}"
+        y|Y) ;;
+        n|N) echo "Exit" ; exit -12 ;;
+        * ) echo "Reply unrecognizable: ${agree}"
             exit -12
     esac
 }
