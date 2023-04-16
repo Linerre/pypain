@@ -46,7 +46,7 @@ _pre_check() {
     read -p "Archive these file(s)? [y/n] " agree
     case $agree in
         y|Y) ;;
-        n|N) echo "Exit" ; exit -12 ;;
+        n|N) echo "Exit" ; exit 0 ;;
         * ) echo "Reply unrecognizable: ${agree}"
             exit -12
     esac
@@ -214,3 +214,5 @@ esac
 
 # ----------------------- CLEAN ----------------------
 unset ntype year download document query category dest suffix
+
+exit 0
