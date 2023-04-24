@@ -54,7 +54,9 @@ print_version() {
             echo "----------------------------"
             $cmd --version
             ;;
-        *) exit -10
+        *)
+            echo "$cmd installed but not supported yet"
+            exit -10
     esac
 }
 
