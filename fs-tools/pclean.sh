@@ -11,16 +11,17 @@ echo "Entering PKGBUILD dir ... "
 cd ${PDIR}
 
 for c in $( ls ${PDIR} ) ; do
-    # category
+    # category dir
     if [[ -d $c ]]; then
         cd $c
-        echo "Now in CATEGORY: $c"
+        echo "Entering CATEGORY: $c"
         for p in $( ls ) ; do
-            echo "Now in PACKAGE dir: $p"
-            # package
+            echo "Entering PACKAGE dir: $p"
+            # package dir
             if [[ -d $p ]] ; then
                 cd $p
                 for f in $( ls ); do
+                    # file
                     case $f in
                         PKGBUILD) ;;
                         *) echo "============= WARNING ==========="
@@ -30,9 +31,9 @@ for c in $( ls ${PDIR} ) ; do
                            ;;
                     esac
                 done
-                echo "Moving out of $p"
+                echo "Leaving PACKAGE dir $p"
                 cd ../
-                echo "Now in CATEGORY dir: " $(pwd)
+                echo "Entering CATEGORY dir: " $(pwd)
             fi
         done
     else
