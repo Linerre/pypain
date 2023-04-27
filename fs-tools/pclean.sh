@@ -27,7 +27,6 @@ for c in $( ls ${PDIR} ) ; do
                         *) echo "============= WARNING ==========="
                            echo "Removing >> $f <<"
                            rm -rf $f
-                           echo "============= WARNING ==========="
                            ;;
                     esac
                 done
