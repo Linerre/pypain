@@ -80,6 +80,18 @@ print_version() {
             echo "-----------------------------"
             $cmd --version
             ;;
+        tree)
+            echo "-----------------------------"
+            echo "FORMULA: $cmd --version"
+            echo "-----------------------------"
+            $cmd --version
+            ;;
+        tree-sitter)
+            echo "-------------------------------------"
+            echo "FORMULA: $cmd -V | --version"
+            echo "-------------------------------------"
+            $cmd --version
+            ;;
         *)
             echo "$cmd installed but not supported yet"
             exit -10
