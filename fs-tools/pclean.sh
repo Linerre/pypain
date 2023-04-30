@@ -7,7 +7,7 @@ echo "THIS SCRIPT WILL CLEAN ALL BUT 'PKGBUILD' FILES."
 
 PDIR="${HOME}/projects/pkgbuilds/"
 
-echo "Entering PKGBUILD dir ... "
+echo "Entering ${PDIR} ... "
 cd ${PDIR}
 
 for c in $( ls ${PDIR} ) ; do
@@ -24,17 +24,18 @@ for c in $( ls ${PDIR} ) ; do
                     # file
                     case $f in
                         PKGBUILD) ;;
-                        *) echo "============= WARNING ==========="
+                        *) echo "==============================="
                            echo "Removing >> $f <<"
                            rm -rf $f
                            ;;
                     esac
                 done
                 echo "Leaving PACKAGE dir $p"
-                cd ../
-                echo "Entering CATEGORY dir: " $(pwd)
+                cd ..
             fi
         done
+        echo "Entering CATEGORY dir: " $(pwd)
+        cd ..
     else
         echo "$p is not a directory, skipping ..."
     fi
