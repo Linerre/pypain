@@ -39,6 +39,12 @@ print_version() {
             echo "-----------------------------"
             $cmd version
             ;;
+        gcc|g++|cc)
+            echo "-----------------------------"
+            echo "FORMULA: $cmd --version "
+            echo "-----------------------------"
+            $cmd --version
+            ;;
         hugo|go)
             echo "----------------------------"
             echo "FORMULA: $cmd version"
