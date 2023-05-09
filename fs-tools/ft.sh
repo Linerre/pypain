@@ -7,7 +7,7 @@ if [[ ${#year} -eq 0 ]]; then
     # Default to this year
     year=$(date +"%Y")
 fi
-read -p "World or UK? [w/u] > " category
+read -p "World or UK? [e/u] > " category
 if [[ ${#category} -eq 0 ]]; then
     # Default to UK
     category="u"
@@ -24,12 +24,12 @@ move_ft() {
     cd $dw
     cd "Telegram Desktop"
     echo "Moved into: " $(pwd)
-    # File name: `Financial Times DD-MM-YY.pdf'
+    # File name: `Financial Times DD-MM-YY.pdf or FT_DDMMYYYY.pdf'
     case $category in
-        "w")
+        "e")
             local fts=$( ls | grep -e "^Financial" | grep -wv -e "UK" | awk '{print $3}' )
             local pfx="Financial Times"
-            local sfx="in"
+            local sfx="eu"
             ;;
         "u")
             local fts=$( ls | grep -e "^Financial" | grep -w -e "UK" | awk '{print $4}')
