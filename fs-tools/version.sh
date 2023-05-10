@@ -35,13 +35,19 @@ print_version() {
             ;;
         git)
             echo "-----------------------------"
-            echo "FORMULA: $cmd -v | --version "
+            echo "FORMULA: $cmd -v | --version"
             echo "-----------------------------"
             $cmd version
             ;;
         gcc|g++|cc)
             echo "-----------------------------"
-            echo "FORMULA: $cmd --version "
+            echo "FORMULA: $cmd --version"
+            echo "-----------------------------"
+            $cmd --version
+            ;;
+        ghc*)
+            echo "-----------------------------"
+            echo "FORMULA: $cmd --version"
             echo "-----------------------------"
             $cmd --version
             ;;
