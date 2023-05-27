@@ -74,7 +74,7 @@ print_version() {
             echo "-----------------------------------------------------"
             $cmd --version
             ;;
-        rustc)
+        rustc|rustup)
             echo "-----------------------------"
             echo "FORMULA: $cmd -V | --version"
             echo "-----------------------------"
