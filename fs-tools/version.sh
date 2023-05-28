@@ -20,13 +20,13 @@ _check_cmd $1
 print_version() {
     local cmd=$(basename $1)
     case $cmd in
-        clj)
-            echo "------------------------------"
-            echo "FORMULA: $cmd --version"
-            echo "------------------------------"
+        clojure|clj)
+            echo "----------------------FORMULA------------------------"
+            echo "--version  Print the version to stdout and exit"
+            echo "-version   Print the version to stderr and exit"
+            echo "-----------------------------------------------------"
             $cmd --version
             ;;
-
         emacs)
             echo "------------------------------"
             echo "FORMULA: $cmd --version"
@@ -51,6 +51,12 @@ print_version() {
             echo "-----------------------------"
             $cmd --version
             ;;
+        grep)
+            echo "-----------------------------"
+            echo "FORMULA: $cmd --version | -V "
+            echo "-----------------------------"
+            $cmd --version
+            ;;
         hugo|go)
             echo "----------------------------"
             echo "FORMULA: $cmd version"
@@ -65,13 +71,6 @@ print_version() {
             echo "--show-version"
             echo "              print product version to the output stream and continue"
             echo "-------------------------------------------------------------------------"
-            $cmd --version
-            ;;
-        clojure|clj)
-            echo "----------------------FORMULA------------------------"
-            echo "--version  Print the version to stdout and exit"
-            echo "-version   Print the version to stderr and exit"
-            echo "-----------------------------------------------------"
             $cmd --version
             ;;
         rustc|rustup)
