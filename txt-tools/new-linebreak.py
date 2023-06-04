@@ -27,6 +27,8 @@ def args_processor():
     parser.add_argument('-s', '--subtitles',
                         help='The name of subtitles file, without extention')
 
+    #TODO:
+    # 3rd arg: delimiter = or \, just something that can be typed in directly without Shift
     args = parser.parse_args()
 
     target_dir = join(ROOT, args.directory)
