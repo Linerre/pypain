@@ -20,6 +20,12 @@ _check_cmd $1
 print_version() {
     local cmd=$(basename $1)
     case $cmd in
+        chromium)
+            echo "------------------------------"
+            echo "FORMULA: $cmd --version"
+            echo "------------------------------"
+            $cmd --version
+            ;;
         clojure|clj)
             echo "----------------------FORMULA------------------------"
             echo "--version  Print the version to stdout and exit"
