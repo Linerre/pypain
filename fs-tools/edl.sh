@@ -59,12 +59,12 @@ download() {
     mv "$filename" "$title"
     echo "== New filename $title"
 
-    echo "Copying the downloaded file to $DEST"
+    echo "== Copying the downloaded file to $DEST"
     mv "$title" "${DEST}"/
-    echo "File saved as ${DEST}/${title}"
+    echo "== File saved as ${DEST}/${title}"
 
     cd -
-    echo "DONE"
+    echo "== DONE =="
     exit 0
 }
 
