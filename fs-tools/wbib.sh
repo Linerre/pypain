@@ -172,13 +172,10 @@ EOF
 
 }
 
-fetch $1
+fetch
 record
-
-echo "== Cleaning vars ..."
 
 unset -v DATE URL API_URL USR_AGT
 unset -f fetch
 
-echo "== DONE"
 exit 0
