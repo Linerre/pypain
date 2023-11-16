@@ -65,7 +65,10 @@ download() {
 
     cd -
     echo "== DONE =="
-    exit 0
 }
 
 download $1
+
+unset -v DEST TEMPDIR
+unset -f download
+exit 0

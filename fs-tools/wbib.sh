@@ -167,9 +167,6 @@ EOF
     else
         echo "Exiting. No action taken."
     fi
-
-
-
 }
 
 fetch
