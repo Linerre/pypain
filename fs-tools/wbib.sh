@@ -99,7 +99,6 @@ fetch() {
     # -A --user-agent
     # -G --get
     echo "== Start fetching ..."
-    # TODO: Copy this curl query to .zshrc
     local page_info=$(
         curl -s "$API_URL" \
              -A "$USR_AGT" \
