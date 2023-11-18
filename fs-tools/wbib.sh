@@ -105,12 +105,14 @@ fetch() {
              --get \
              --data-urlencode "action=query" \
              --data-urlencode "format=json" \
-             --data-urlencode "prop=info" \
+             --data-urlencode "prop=revisions|info" \
              --data-urlencode "titles=$PAGE_TITLE" \
              --data-urlencode "formatversion=2" \
+             --data-urlencode "rvprop=ids|timestamp" \
+             --data-urlencode "rvlimit=2" \
              --data-urlencode "inprop=url" |
-            jq -r '.query.pages[0] | {title: .title, url: .editurl, date: .touched, id: .lastrevid}'
-          )
+            jq -r '.query.pages[0] | {title: .title, url: .editurl, date: .revisions[0].timestamp, id: .revisions[0].revid}'
+          ) #TODO: get rid of `revisions[0]` for twice?
     echo
     echo "== Filtered page info as follows:"
     echo "---------------------------------"
@@ -134,7 +136,7 @@ record() {
     local today=$( date +"%Y-%m-%d" )
     local wentry=$(
         cat <<EOF
- @online{wiki:$PAGE_TITLE,
+@online{wiki:$PAGE_TITLE,
    author = {{Wikipedia contributors}},
    shortauthor = {Wikipedia},
    date = {$DATE},
