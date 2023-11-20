@@ -5,6 +5,7 @@
 # https://<domain>/path/to/title.pdf
 
 DEST="$HOME/Documents/books"
+[[ ! -d "$DEST/temp" ]] && mkdir "$DEST/temp"
 TEMPDIR="${DEST}/temp"
 
 # Check if a URL is provided
