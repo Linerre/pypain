@@ -7,7 +7,7 @@ If no specific category is passed via option `p`, then the entry is recorded in
 `uncate.bib` under the abovementioned directory.
 
 Usage:
-  wbib <PAGE_TITLE> [options]
+  wbib [options] <PAGE_TITLE>
 
 Options:
   -c            Set the category for the entry, must be one of pp,cs,ft
@@ -18,16 +18,22 @@ that these titles might appear in the encoded format in the page urls.  `B+_tree
 corresponding url is shown as `B%2B_tree` where `+` sign is encoded into `%2B`.
 '
 
-usage() { echo "Usage: $0 <PAGE_TITLE> [-c <pp|cs|ft>]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-c <pp|cs|ft|fn>] <PAGE_TITLE>" 1>&2; exit 1; }
 
 # Check if any argument is given
-[ "$#" -eq 0 ] && usage
+# "$#" is the number of arguments.  $0 is not included
+[[ "$#" -eq 0 ]] && usage
 
-# Extract the first argument as a string
-PAGE_TITLE="$1"
-echo "== To fech entry for $first_arg"
+if [[ "$#" -eq 3 ]]; then
+    # Last is the title to be searched
+    PAGE_TITLE="$3"
+elif [[ "$#" -eq 1 ]]; then
+    # First is the title to be searched
+    PAGE_TITLE="$1"
+fi
 
-# Check if the first argument is a string
+echo "== To fech entry for $PAGE_TITLE"
+
 if [[ ! "$PAGE_TITLE" =~ ^[[:alpha:]_\+\-]+$ ]]; then
     echo "[Err]: First argument should NOT contain whitespace or any non-letter characters."
     exit 1
@@ -53,7 +59,7 @@ DEST="${HOME}/projects/org/bibs/wiki"
 CATE="uncate.bib"
 
 # :c disables verbose error handling
-# c: means `p` option takes an argument
+# c: means `c` option takes an argument
 while getopts ":c:" opt; do
     case "$opt" in
         c)
@@ -70,6 +76,10 @@ while getopts ":c:" opt; do
                     echo "== Setting CATEGORY to font.bib"
                     CATE="fonts.bib"
                     ;;
+                fn)
+                    echo "== Setting CATEGORY to finance.bib"
+                    CATE="finance.bib"
+                    ;;
             esac
             ;;
         \?)
@@ -81,7 +91,7 @@ while getopts ":c:" opt; do
             exit 1
             ;;
         *)
-            echo "== Option arg not given as one of pp|cs|ft"
+            echo "== Option arg not given as one of pp|cs|ft|fn"
             echo "== Using default: uncate.bib"
             ;;
     esac
@@ -152,19 +162,14 @@ EOF
     echo "-------------------------------------"
     echo "$wentry"
     echo "-------------------------------------"
-    echo
-    read -p "Proceed? (y/n): " answer
+    echo "== to ${DEST}/${CATE}"
+    read -p "== Proceed? (y/n): " answer
     # Check if the input is "y" (case-insensitive)
     if [[ "$answer" == [Yy] ]]; then
-        if [ -f "${DEST}/${CATE}" ]; then
-            # Add a newline to separate entries
-            echo >> "${DEST}/${CATE}"
-            echo "$wentry" >> "${DEST}/${CATE}"
-        else
-            echo "[Err]: ${DEST}/${CATE} not found"
-            exit 1
-        fi
-        echo "== Added one entry to $CATE"
+        # Add a newline to separate entries
+        echo >> "${DEST}/${CATE}"
+        echo "$wentry" >> "${DEST}/${CATE}"
+        echo "== Added one entry to ${DEST}/${CATE}"
     else
         echo "Exiting. No action taken."
     fi
