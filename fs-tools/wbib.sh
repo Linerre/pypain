@@ -80,6 +80,14 @@ while getopts ":c:" opt; do
                     echo "== Setting CATEGORY to finance.bib"
                     CATE="finance.bib"
                     ;;
+                gm)
+                    echo "== Setting CATEGORY to game.bib"
+                    CATE="game.bib"
+                    ;;
+                cy)
+                    echo "== Setting CATEGORY to crypto.bib"
+                    CATE="crypto.bib"
+                    ;;
             esac
             ;;
         \?)
