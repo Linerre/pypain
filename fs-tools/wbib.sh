@@ -34,11 +34,6 @@ fi
 
 echo "== To fech entry for $PAGE_TITLE"
 
-if [[ ! "$PAGE_TITLE" =~ ^[[:alpha:]_\+\-]+$ ]]; then
-    echo "[Err]: First argument should NOT contain whitespace or any non-letter characters."
-    exit 1
-fi
-
 # No whitespace in page title (must encoded using `%20`)
 # grep optipns:
 # -q, --quiet
@@ -152,9 +147,10 @@ fetch() {
 
 record() {
     local today=$( date +"%Y-%m-%d" )
+    local key=$( echo $PAGE_TITLE | tr -d ' ' | tr -d '_' )
     local wentry=$(
         cat <<EOF
-@online{wiki:$PAGE_TITLE,
+@online{wiki:$key
    author = {{Wikipedia contributors}},
    shortauthor = {Wikipedia},
    date = {$DATE},
