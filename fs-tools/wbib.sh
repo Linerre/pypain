@@ -147,7 +147,7 @@ fetch() {
 
 record() {
     local today=$( date +"%Y-%m-%d" )
-    local key=$( echo $PAGE_TITLE | tr -d ' ' | tr -d '_' )
+    local key=$( echo $PAGE_TITLE | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr -d '_' )
     local wentry=$(
         cat <<EOF
 @online{wiki:$key
